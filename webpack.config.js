@@ -1,6 +1,8 @@
 /**
  * Created by liu on 2016/4/13.
  */
+
+
 var path = require('path');
 var webpack = require('webpack');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
@@ -15,8 +17,8 @@ var BUILD_PATH = path.resolve(ROOT_PATH,'build');
 
 module.exports = {
     entry: {
-        bootstrap: "./lib/bootstrap/js/bootstrap.js",
-        webapp: './js/webapp.js',
+        
+        app: './app.js',
         jquery: ['jquery'],
     },
 
@@ -57,6 +59,10 @@ module.exports = {
         // new OpenBrowserPlugin({
         //     url: 'http://localhost:5831'
         // }),
+
+
+        
+
         new ExtracTextPlugin('styles.css'),
         // Vendor chunk - available as variable in every module,
         new webpack.ProvidePlugin({
