@@ -18,14 +18,15 @@ var BUILD_PATH = path.resolve(ROOT_PATH,'build');
 module.exports = {
     entry: {
         
-        app: './app.js',
+        index: './index.js',
         jquery: ['jquery'],
     },
 
 
     output: {
         path:'build',
-        filename: '[name].js'
+        filename: '[name].js',
+        publicPath:'build'
     },
     module: {
         loaders: [
@@ -40,12 +41,13 @@ module.exports = {
             },{
                 test: /\.(png|jpg)$/,
                 loader: 'url?limit=40000'
-            },
-            {
-                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,loader:"url-loader?limit=1000&minetype=application/font-woff"
-            },			{
-                test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,loader:"file-loader"
             }
+            // ,
+            // {
+            //     test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,loader:"url-loader?limit=1000&minetype=application/font-woff"
+            // },			{
+            //     test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,loader:"file-loader"
+            // }
         ]
 
 
