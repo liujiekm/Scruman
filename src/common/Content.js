@@ -6,7 +6,7 @@ import { Row, Col } from 'antd'
 
 class Content extends Component {
     render(){
-        const {children} = this.props
+        
         return (
             <div>
                 <Row type="flex">
@@ -18,7 +18,7 @@ class Content extends Component {
 
                 <Row type="flex">
                     <Col span={24}>
-                        {children}
+                        
                     
                     </Col>
                 </Row>
@@ -31,7 +31,7 @@ class Content extends Component {
 
 Content.propTypes={
 
-    children:PropTypes.element.isRequired
+    
 
 }
 

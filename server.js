@@ -15,11 +15,12 @@ app.get('*',function(req,rep) {
     rep.sendFile(__dirname+'/index.html');
 });
 
+var port = 8000
 
-app.listen(1000, function(error) {
+app.listen(port, function(error) {
   if (error) {
-    console.error(error)
+    console.error(error);
   } else {
-    console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", 1000, 1000)
+    console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port);
   }
-})
+});

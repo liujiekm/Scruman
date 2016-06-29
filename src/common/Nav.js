@@ -8,7 +8,7 @@ class Nav extends Component {
     render(){
 
         return (
-                <div style={{position: absolute, width: '100%' }}>
+                <div style={{width: '100%',backgroundColor: '#4486D0'}}>
                     <header className="banner navbar navbar-default navbar-static-top" id="mainNav" role="banner">
                         <div className="container padding-top-15" style={{width: '98%'}}>
                             <div className="navbar-header">

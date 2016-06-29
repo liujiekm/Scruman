@@ -7,7 +7,7 @@ class App extends Component {
         const {children} = this.props
         return (
             <MainLayout>
-                {children}
+                
             </MainLayout>
         );
     }
@@ -18,7 +18,7 @@ class App extends Component {
 
 App.propTypes={
 
-    children:PropTypes.element.isRequird
+    
 
 }
 
