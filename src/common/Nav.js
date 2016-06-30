@@ -1,48 +1,61 @@
 import React, { Component, PropTypes } from 'react'
+import { Router, Route, IndexRoute, Link } from 'react-router';
+
+import {Menu,Icon} from 'antd';
 
 import '../content/css/main.css'
 
 
+const SubMenu = Menu.SubMenu;
+const MenuItemGroup = Menu.ItemGroup;
+
+
+
 class Nav extends Component {
+
+    constructor(props)
+    {
+        super(props)
+        this.state={
+            current:'mail'
+
+        }
+    }
+
+    handleClick(e)
+    {
+        this.setState({current:e.key});
+    }
 
     render(){
 
         return (
-                <div style={{width: '100%',backgroundColor: '#4486D0'}}>
-                    <header className="banner navbar navbar-default navbar-static-top" id="mainNav" role="banner">
-                        <div className="container padding-top-15" style={{width: '98%'}}>
-                            <div className="navbar-header">
-                                <button className="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-                                    <span className="sr-only">Toggle navigation</span><span className="icon-bar"></span>
-                                    <span className="icon-bar"></span><span className="icon-bar"></span>
-                                </button>
-                                <div className="navbar-brand-container">
-                                    <a className="navbar-brand menu-title" href="https://www.salesmachine.io/">
-                                        <div className="logo"></div>
-                                    </a>
-                                </div>
-                            </div>
-                            <nav className="collapse navbar-collapse" role="navigation">
-                                <ul className="nav navbar-nav" id="menu-main-navigation-menu">
-                                    <li className="menu-product">
-                                        <a href="/product.html">Product</a>
-                                    </li>
-                                    <li className="menu-pricing">
-                                        <a href="/pricing.html">Pricing    </a>
-                                    </li>
-                                    <li className="menu-request-a-demo">
-                                        <a href="https://calendly.com/salesmachine/demo/05-03-2016">Request a demo</a>
-                                    </li>
-                                    <li className="menu-login">
-                                        <a href="http://my.salesmachine.io/auth/login">Login</a>
-                                    </li>
-                                    <li className="menu-sign-up">
-                                        <a href="https://my.salesmachine.io/auth/register/sign_up">Sign up</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </header>
+            <div>
+                <Menu onClick={this.handleClick.bind(this)}
+                        selectedKeys={[this.state.current]}
+                        mode="horizontal">
+                    <Menu.Item key="mail">
+                        
+                        <Link to="Alternative"><Icon type="mail" />导航一</Link>
+                    </Menu.Item>
+                    <Menu.Item key="app" disabled>
+                        <Icon type="appstore" />导航二
+                    </Menu.Item>
+                    <SubMenu title={<span><Icon type="setting" />导航 - 子菜单</span>}>
+                        <MenuItemGroup title="分组1">
+                            <Menu.Item key="setting:1">选项1</Menu.Item>
+                            <Menu.Item key="setting:2">选项2</Menu.Item>
+                        </MenuItemGroup>
+                        <MenuItemGroup title="分组2">
+                            <Menu.Item key="setting:3">选项3</Menu.Item>
+                            <Menu.Item key="setting:4">选项4</Menu.Item>
+                        </MenuItemGroup>
+                    </SubMenu>
+                    <Menu.Item key="alipay">
+                        <Link to="Alternative">导航四 - 链接</Link>
+                        
+                    </Menu.Item>
+                </Menu>
                 </div>
 
 

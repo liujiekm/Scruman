@@ -12,14 +12,14 @@ class MainLayout extends Component {
 
     render(){
 
-        
+        const {children} = this.props
 
         return (
             <div>
                 <Nav />
 
                 <Content>
-                    
+                    {children}
                 </Content>
                 
             </div>
@@ -31,7 +31,7 @@ class MainLayout extends Component {
 
 
 MainLayout.propTypes={
-    
+    children:PropTypes.element.isRequired
 }
 
 export default MainLayout
