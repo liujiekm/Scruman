@@ -3,6 +3,8 @@ import { Router, Route, IndexRoute, Link } from 'react-router';
 
 import {Menu,Icon} from 'antd';
 
+import 'antd/dist/antd.min.css'
+
 import '../content/css/main.css'
 
 
@@ -30,7 +32,7 @@ class Nav extends Component {
     render(){
 
         return (
-            <div>
+            
                 <Menu onClick={this.handleClick.bind(this)}
                         selectedKeys={[this.state.current]}
                         mode="horizontal">
@@ -52,11 +54,11 @@ class Nav extends Component {
                         </MenuItemGroup>
                     </SubMenu>
                     <Menu.Item key="alipay">
-                        <Link to="Alternative">导航四 - 链接</Link>
+                        <Link to="Second">导航四 - 链接</Link>
                         
                     </Menu.Item>
                 </Menu>
-                </div>
+                
 
 
         )
