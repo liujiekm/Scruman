@@ -34,7 +34,7 @@ export default class MainLayout extends Component {
                     
                 </div>
 
-                <div>
+               
                     <div className='left-nav-area'>
                         <LeftNav />
                     </div>
@@ -43,7 +43,7 @@ export default class MainLayout extends Component {
                         {this.props.children}
                     </Content>
                     
-                </div>
+                
 
             </div>
         )

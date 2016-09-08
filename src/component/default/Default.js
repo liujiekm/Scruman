@@ -7,7 +7,7 @@ class Default extends Component{
 
             return (
                 <div>
-                <SingleIndicate />
+                <SingleIndicate bgColor={'blue'}/>
                 </div>
 
             )
