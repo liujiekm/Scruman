@@ -17,23 +17,24 @@ var BUILD_PATH = path.resolve(ROOT_PATH,'build');
 
 module.exports = {
     entry: {
-        
-        index: './index.js',
         jquery: ['jquery'],
+        index: [
+                    'webpack-dev-server/client?http://localhost:8000',
+                    'webpack/hot/only-dev-server',
+                    './index.js'
+               ]
     },
-
-
     output: {
-        path:'build',
+        path:__dirname+'build',
         filename: '[name].js',
-        publicPath:'build'
+        publicPath:'http://localhost:8000/build'
     },
     module: {
         loaders: [
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader?presets[]=es2015&presets[]=react'
+                loaders: ['react-hot','babel-loader?presets[]=es2015&presets[]=react']
             },
             {
                 test: /\.css$/,
@@ -42,29 +43,20 @@ module.exports = {
                 test: /\.(png|jpg)$/,
                 loader: 'url?limit=40000'
             }
-            // ,
-            // {
-            //     test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,loader:"url-loader?limit=1000&minetype=application/font-woff"
-            // },			{
-            //     test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,loader:"file-loader"
-            // }
+            ,
+            {
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,loader:"url-loader?limit=1000&minetype=application/font-woff"
+            },			{
+                test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,loader:"file-loader"
+            }
         ]
 
 
     },
     plugins: [
-        // new HtmlwebpackPlugin({
-        //     title: 'HLZK-Debug',
-        //     // filename: './build/index.html'
-        // }),
-        // Open Browser Webpack Plugin
-        // new OpenBrowserPlugin({
-        //     url: 'http://localhost:5831'
-        // }),
 
-
-        
-
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
         new ExtracTextPlugin('styles.css'),
         // Vendor chunk - available as variable in every module,
         new webpack.ProvidePlugin({

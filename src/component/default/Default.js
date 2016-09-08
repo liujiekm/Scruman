@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react'
+import SingleIndicate from '../widget/SingleIndicate'
 
-class Second extends Component{
+
+class Default extends Component{
     render(){
 
             return (
                 <div>
-                this is Second page
+                <SingleIndicate />
                 </div>
 
             )
@@ -13,4 +15,4 @@ class Second extends Component{
     }
 }
 
-export default Second;
+export default Default;

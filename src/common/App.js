@@ -1,26 +1,35 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import MainLayout from '../layouts/MainLayout'
+import MainLayout from '../layouts/MainLayout';
+import { deepOrange500 } from 'material-ui/styles/colors';
 
-class App extends Component {
-    render(){
-        
-        return (
-            <MainLayout>
-                {this.props.children}
-            </MainLayout>
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+
+
+const muiTheme = getMuiTheme({
+  palette: {
+    accent1Color: deepOrange500,
+  },
+});
+
+export default class App extends Component {
+  render() {
+    return (
+            <MuiThemeProvider muiTheme={muiTheme}>
+                <MainLayout>
+                    {this.props.children}
+                </MainLayout>
+            </MuiThemeProvider>
         );
-    }
-
+  }
 }
 
+App.propTypes = {
 
 
-App.propTypes={
 
-    
-
-}
+};
 
 
-export default App;
