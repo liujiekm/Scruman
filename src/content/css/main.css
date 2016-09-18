@@ -70,6 +70,11 @@ body{
     min-width: 250px;
 }
 
+
+/*.left-nav-area>div>div:not(:first-child)>span :hover {
+    color: white;
+}*/
+
 .content
 {
 

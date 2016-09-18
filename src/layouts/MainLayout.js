@@ -11,6 +11,8 @@ import AppBar from 'material-ui/AppBar'
 
 import LeftNav from '../common/LeftNav'
 
+import ListExampleSelectable from '../common/SelectableList'
+
 
 
 
@@ -36,7 +38,9 @@ export default class MainLayout extends Component {
 
                
                     <div className='left-nav-area'>
-                        <LeftNav />
+                        
+                        
+                        <ListExampleSelectable />
                     </div>
                     
                     <Content>              

@@ -14,6 +14,9 @@ import Default from '../component/default/Default'
 
 const Routes = ({ history }) =>
   <Router history={history}>
+
+
+    
     <Route path="/" component={App} >
         <Route path="Default" component={Default} />
         <Route path="Second" component={Second} />

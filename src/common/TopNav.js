@@ -15,6 +15,11 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui
 import FileFolder from 'material-ui/svg-icons/file/folder'
 import Badge from 'material-ui/Badge'
 import FlatButton from 'material-ui/FlatButton';
+
+
+
+import UploadIcon from 'material-ui/svg-icons/file/cloud-upload';
+import FolderIcon from 'material-ui/svg-icons/file/folder-open';
 import NotificationsIcon from 'material-ui/svg-icons/social/notifications'
 
 import TextField from 'material-ui/TextField';
@@ -79,7 +84,30 @@ export default class TopNav extends React.Component {
 
         <ToolbarGroup>
          
+            <div>
 
+                <Badge style={{'marginTop':'-15px'}}
+                    badgeContent={<IconButton tooltip="Backup"><UploadIcon /></IconButton>}
+                    badgeStyle={{top: 8, right: 8}}
+
+                    
+                  >
+                    <FolderIcon />
+                </Badge>
+
+
+
+
+                <Badge style={{'marginTop':'-15px'}}
+                  badgeContent={10}
+                  secondary={true}
+                  badgeStyle={{top: 24, right: 24,'width':'20px','height':'20px'}}
+                  >
+                  <IconButton tooltip="Notifications">
+                    <NotificationsIcon />
+                  </IconButton>
+              </Badge>
+            </div>
        
 
         </ToolbarGroup>
