@@ -5,8 +5,10 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import mui from 'material-ui';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import Routes from './src/routes/index'
+import Routes from './src/route/index'
 import './src/content/css/main.css'
 
 injectTapEventPlugin();
+
+
 ReactDOM.render(<Routes history={browserHistory} />, document.getElementById('root'));

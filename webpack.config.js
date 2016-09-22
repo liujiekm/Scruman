@@ -13,33 +13,43 @@ var ROOT_PATH = path.resolve(__dirname);
 var APP_PATH = path.resolve(ROOT_PATH,'js');
 var BUILD_PATH = path.resolve(ROOT_PATH,'build');
 
+//var routeComponentRegex = /routes\/([^\/]+\/?[^\/]+).js$/ ;
+
+
+
+        // Home:['./src/routes/Home.js'],
+        // Config:['./src/routes/Config.js']
 
 
 module.exports = {
+    devtool: 'inline-source-map',
     entry: {
-        jquery: ['jquery'],
         index: [
                     'webpack-dev-server/client?http://localhost:8000',
                     'webpack/hot/only-dev-server',
                     './index.js'
-               ]
+               ],
+        shared:['react','react-router','material-ui']
     },
     output: {
-        path:__dirname+'build',
+        path:__dirname+'/build',
         filename: '[name].js',
+        chunkFilename: '[id].chunk.js',
         publicPath:'http://localhost:8000/build'
     },
     module: {
         loaders: [
             {
                 test: /\.js$/,
+
                 exclude: /node_modules/,
                 loaders: ['react-hot','babel-loader?presets[]=es2015&presets[]=react']
             },
             {
                 test: /\.css$/,
                 loader: ExtracTextPlugin.extract('style-loader','css-loader')
-            },{
+            },
+            {
                 test: /\.(png|jpg)$/,
                 loader: 'url?limit=40000'
             }
@@ -54,6 +64,7 @@ module.exports = {
 
     },
     plugins: [
+        new webpack.optimize.CommonsChunkPlugin('shared','shared.js'),
 
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
@@ -64,5 +75,6 @@ module.exports = {
             jQuery: "jquery",
             "window.jQuery": "jquery"
         })
+        //,new webpack.optimize.UglifyJsPlugin()
     ]
 }

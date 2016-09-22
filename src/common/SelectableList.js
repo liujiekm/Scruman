@@ -62,17 +62,17 @@ class ListExampleSelectable extends Component {
 
     render(){
         return (
-            <SelectableList defaultValue={'Default'} >
+            <SelectableList defaultValue={'Home'} >
                 <Subheader>  </Subheader>
                 <ListItem
-                    value={'Default'}
+                    value={'Home'}
                     primaryText="Brendan Lim"
                     leftIcon={<RemoveRedEye />}
                     style={itemStyle}
                     
                 />
                 <ListItem
-                    value={3}
+                    value={'Config'}
                     primaryText="Kerem Suer"
                     leftIcon={<PersonAdd />}
                     style={itemStyle}

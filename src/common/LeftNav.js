@@ -50,8 +50,8 @@ class LeftNav extends Component {
 
           <Paper style={style.paper}>
             <Menu onChange={this.handleNavigator.bind(this)} onItemTouchTap={this.handleItemTouch.bind(this)}>
-              <MenuItem value={'Default'} primaryText="Preview"  leftIcon={<RemoveRedEye />}  />
-              <MenuItem value={2} primaryText="Share" leftIcon={<PersonAdd />}  />
+              <MenuItem value={'Home'} primaryText="Preview"  leftIcon={<RemoveRedEye />}  />
+              <MenuItem value={'Config'} primaryText="Share" leftIcon={<PersonAdd />}  />
               <MenuItem value={3} primaryText="Get links" leftIcon={<ContentLink />}  />
               
               <MenuItem value={4} primaryText="Make a copy" leftIcon={<ContentCopy />}  />

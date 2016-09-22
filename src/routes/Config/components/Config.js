@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 
-class Second extends Component{
+
+
+class Config extends Component{
     render(){
 
             return (
                 <div>
-                this is Second page
+
+
+                    this is config page
                 </div>
 
             )
@@ -13,4 +17,4 @@ class Second extends Component{
     }
 }
 
-export default Second;
+export default Config;
