@@ -41,15 +41,22 @@ import Config from '../routes/Config/components/Config'
 //   }
 // }
 
+const isReactComponent = (obj) => Boolean(obj && obj.prototype && Boolean(obj.prototype.isReactComponent));
 
+const component = (component) => {
+  return isReactComponent(component)
+    ? {component}
+    : {getComponent: (loc, cb)=> component(
+         comp=> cb(null, comp.default || comp))}
+};
 
 
 
 const Routes = ({ history }) =>
   <Router history={history}>
     <Route path="/" component={App} >
-        <Route path="Home"   component={Home}/>
-        <Route path="Config" component={Config}/>
+        <Route path="Home"    {...component(Home)} />
+        <Route path="Config"  {...component(Config)}/>
     </Route>
     
   </Router>;

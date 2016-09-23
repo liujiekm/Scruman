@@ -1,8 +1,7 @@
 // scruman.cn网站入口文件
-
-import ReactDOM from 'react-dom';
-import React from 'react';
-import { browserHistory } from 'react-router';
+import React, { PropTypes } from 'react';
+import { render } from 'react-dom'
+import { Router, browserHistory } from 'react-router'
 import mui from 'material-ui';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Routes from './src/route/index'
@@ -10,5 +9,20 @@ import './src/content/css/main.css'
 
 injectTapEventPlugin();
 
+// const rootRoute = {
+//   component: 'div',
+//   childRoutes: [ {
+//     path: '/',
+//     component: require('./src/common/App'),
+//     childRoutes: [
+//       require('./src/routes/Home'),
+//       require('./src/routes/Config')
+   
+//     ]
+//   } ]
+// }
 
-ReactDOM.render(<Routes history={browserHistory} />, document.getElementById('root'));
+
+//<Router history={browserHistory} routes={rootRoute} />
+render(<Routes history={browserHistory} />,
+document.getElementById('root'));
