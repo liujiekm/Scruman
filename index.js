@@ -6,6 +6,8 @@ import mui from 'material-ui';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Routes from './src/route/index'
 import './src/content/css/main.css'
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
 
 injectTapEventPlugin();
 

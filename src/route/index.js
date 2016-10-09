@@ -11,10 +11,6 @@ import Config from '../routes/Config/components/Config'
 
 
 
-// var App =require('../common/App')
-// var Home =require('../routes/Home')
-// var Config =require('../routes/Config')
-
 
 
 

@@ -22,7 +22,7 @@ module.exports = {
                     'webpack/hot/only-dev-server',
                     './index.js'
                ],
-        shared:['react','react-router','material-ui']
+        shared:['react','react-router','react-grid-layout','material-ui']
     },
     output: {
         path:__dirname+'/build',

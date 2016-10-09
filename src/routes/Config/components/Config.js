@@ -9,7 +9,8 @@ class Config extends Component{
                 <div>
 
 
-                    this is config page
+                    this is not in the same place config page
+
                 </div>
 
             )

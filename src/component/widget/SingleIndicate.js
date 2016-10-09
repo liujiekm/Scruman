@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Paper from 'material-ui/Paper';
 
-
+import uuid from 'uuid'
 
 const style={
 
@@ -20,10 +20,14 @@ const style={
          super(props);
      }
 
+     componentDidMount(){
+         
+     }
+
     render(){
 
         return (
-            <Paper style={style} zDepth={2} >
+            <div style={style} >
                 <div style={{'backgroundColor':this.props.bgColor,'width':'100px','height':'100%','float':'left','color':'white','paddingTop': '15px'}}>
                     <i className={this.props.iconClassName}></i>
                 </div>
@@ -37,7 +41,7 @@ const style={
                 </div>
             
             
-            </Paper>
+            </div>
         );
     }
 
