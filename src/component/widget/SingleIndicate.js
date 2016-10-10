@@ -11,7 +11,8 @@ const style={
   textAlign: 'center',
   display: 'inline-block',
   position:'relative',
-  cursor: 'pointer'
+  cursor: 'pointer',
+  backgroundColor:'white'
 }
 
 
