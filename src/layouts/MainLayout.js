@@ -31,23 +31,17 @@ export default class MainLayout extends Component {
         return (
             <div className='app-root'>
                 <div className='top-nav-area'>
-                    
                     <TopNav />
-                    
                 </div>
 
-               
-                    <div className='left-nav-area'>
-                        
-                        
-                        <ListExampleSelectable />
-                    </div>
+                <div className='left-nav-area'>
+                    <ListExampleSelectable />
+                </div>
                     
-                    <Content>              
-                        {this.props.children}
-                    </Content>
-                    
-                
+                <Content>              
+                    {this.props.children}
+                </Content>
+
 
             </div>
         )

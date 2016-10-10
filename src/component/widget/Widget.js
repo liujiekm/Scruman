@@ -5,18 +5,30 @@
 
 import React, { Component, PropTypes } from 'react';
 
+import classNames from 'classnames'
+
 class Widget extends Component{
     constructor(props)
     {
         super(props)
+        this.state={
+            
+        }
 
     }
 
     render(){
 
+        let {edit,itemKey} = this.props
+        let wgtContainerClass = classNames({
+            'wgt-container':'true',
+            'edit': edit
+            });
         return (
 
-            <div>
+            <div key={itemKey} className={wgtContainerClass}>
+
+                {this.props.children}
             </div>
 
         )
@@ -28,6 +40,9 @@ class Widget extends Component{
 
 
 Widget.propTypes={
-    edit:PropTypes.bool.isRequired
+    edit:PropTypes.bool.isRequired,
+    itemKey:PropTypes.string.isRequired
 
 }
+
+module.exports = Widget;

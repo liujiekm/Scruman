@@ -4,7 +4,6 @@ import Paper from 'material-ui/Paper';
 import uuid from 'uuid'
 
 const style={
-
   height: 75,
   width: 250,
   margin: 10,
@@ -12,7 +11,8 @@ const style={
   display: 'inline-block',
   position:'relative',
   cursor: 'pointer',
-  backgroundColor:'white'
+  backgroundColor:'white',
+  boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px'
 }
 
 
