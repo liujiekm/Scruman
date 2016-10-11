@@ -5,7 +5,9 @@
 }
 
 html{
-    font-family: Roboto, sans-serif;
+    /*font-family: Roboto, sans-serif;*/
+
+    font-family: bowtie;
     height: 100%;
     width:100%;
 }
@@ -124,4 +126,104 @@ body{
 }
 
 
+.dashboard-edit-menu-container {
+    position: fixed;
+    right: 20px;
+    bottom: 15px;
+    z-index: 4;
+    width: 80px;
+    height: 160px;
+}
 
+.dashboard-edit-menu-container .edit-menu {
+    visibility: hidden;
+}
+
+.dashboard-edit-menu-container .button {
+    width: 56px;
+    height: 56px;
+    box-shadow: 0 4px 8px rgba(0,0,0,.28);
+    border: 0;
+    border-radius: 50%;
+    transition: all .5s cubic-bezier(.08,1.08,.58,1.11);
+    transform: scale(1);
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 1;
+    opacity: 0;
+    text-align: center;
+}
+
+
+.dashboard-edit-menu-container .add-widget-button {
+    background-color: #689f38;
+    color: #fff;
+}
+
+.dashboard-edit-menu-container .button-icon {
+    transition: all .2s cubic-bezier(.4,0,.2,1);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(50% - 13px);
+    font-family: bowtie;
+    font-size: 24px;
+    color: #fff;
+}
+
+.bowtie-math-plus, .bowtie-status-success, .bowtie-math-plus-light, .bowtie-math-plus-heavy, .bowtie-status-run {
+    color: #393;
+}
+
+.dashboard-edit-menu-container .menu-toggle-button {
+    background-color: #007acc;
+    z-index: 2;
+    opacity: 1;
+    color: #fff;
+}
+
+
+.dashboard-edit-menu-container .closed-icon {
+    opacity: 1;
+    transform: rotate(0);
+}
+
+.dashboard-edit-menu-container .open-icon {
+    opacity: 0;
+    transform: rotate(180deg);
+}
+
+
+.dashboard-edit-menu-container.menu-open .edit-menu{
+    visibility:visible
+}
+
+.dashboard-edit-menu-container.menu-open .edit-menu .button
+{opacity:1}
+.dashboard-edit-menu-container.menu-open .add-widget-button
+{bottom:90px}
+
+
+.dashboard-edit-menu-container.menu-pinned-open .closed-icon
+{opacity:0;transform:rotate(-180deg)}
+.dashboard-edit-menu-container.menu-pinned-open .open-icon
+{opacity:1;transform:rotate(0)}
+
+
+/*.bowtie-check {
+    content: "\e977 ";
+}
+.bowtie-edit {
+    content: "\e949 ";
+}
+
+
+.bowtie-check::before {
+    content: "\e977 ";
+}
+
+.bowtie-edit::before {
+    content: "\e949 ";
+}*/

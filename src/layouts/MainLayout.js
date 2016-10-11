@@ -15,7 +15,7 @@ import ListExampleSelectable from '../common/SelectableList'
 
 
 
-
+import GridEdit from '../common/GridEdit'
 
 
 export default class MainLayout extends Component {
@@ -42,7 +42,7 @@ export default class MainLayout extends Component {
                     {this.props.children}
                 </Content>
 
-
+                <GridEdit />
             </div>
         )
 
