@@ -1,24 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import ReactGridLayout from 'react-grid-layout'
-
 import ReactDOMServer from 'react-dom/server'
-
 import _ from 'lodash'
 //import {Responsive, WidthProvider} from 'react-grid-layout';
 import Widget from '../../../component/widget/Widget'
 import SingleIndicate from '../../../component/widget/SingleIndicate'
 import uuid from 'uuid'
-
-
 import GridEdit from '../../../common/GridEdit'
-
-
-
-
-
 //const ResponsiveReactGridLayout = WidthProvider(Responsive);
-
-
 var ResponsiveReactGridLayout = require('react-grid-layout').Responsive;
 
 
@@ -32,10 +21,10 @@ class Home extends Component{
             canDelete:false,
             editComponentClicked:false,
 
-            layout:[{"i":"a","x":0,"y":0,"w":3,"h":3,"isDraggable":true,"isResizable":false,"add":true},
-                    {"i":"b","x":3,"y":0,"w":3,"h":3,"isDraggable":true,"isResizable":false,"add":true},
-                    {"i":"c","x":6,"y":0,"w":3,"h":3,"isDraggable":true,"isResizable":false,"add":true},
-                    {"i":"d","x":9,"y":0,"w":3,"h":3,"isDraggable":true,"isResizable":false,"add":true}]
+            layout:[{"i":"a","x":0,"y":0,"w":3,"h":3,"isDraggable":false,"isResizable":false,"add":true},
+                    {"i":"b","x":3,"y":0,"w":3,"h":3,"isDraggable":false,"isResizable":false,"add":true},
+                    {"i":"c","x":6,"y":0,"w":3,"h":3,"isDraggable":false,"isResizable":false,"add":true},
+                    {"i":"d","x":9,"y":0,"w":3,"h":3,"isDraggable":false,"isResizable":false,"add":true}]
 
         }
     }
@@ -44,7 +33,13 @@ class Home extends Component{
     {
         if(!this.state.editComponentClicked)
         {
-            this.setState({editComponentClicked:true,edit:true,canDelete:true});
+            this.setState({editComponentClicked:true,edit:true,canDelete:true,
+                layout:_.each(this.state.layout,function(layout) {
+                    layout.isDraggable=true;
+                    layout.static=false;
+                })  
+            });
+            //console.log(this.state)
         }else{
             
             this.setState({editComponentClicked:false,edit:false,canDelete:false});
@@ -61,10 +56,12 @@ class Home extends Component{
 
 
     onLayoutChange(layout){
+        console.log(layout,'onLayoutChange')
         this.setState({layout:layout})       
     }
 
     componentWillMount(){
+        //console.log(this.state.layout)
         if(localStorage.homeLayout)
         {
             this.setState({layout:JSON.parse(localStorage.getItem('homeLayout'))});
@@ -80,51 +77,51 @@ class Home extends Component{
     }
     render(){
 
-            
+            console.log(this.state,'render')
             return (
 
                 <div>
-                <ReactGridLayout  className="layout" layout={this.state.layout}  cols={12} rowHeight={30} width={1000}
-                        onLayoutChange={this.onLayoutChange.bind(this)} >
+                    <ReactGridLayout  className="layout" layout={this.state.layout}  cols={12} rowHeight={30} width={1000} isDraggable={this.state.edit}
+                            onLayoutChange={this.onLayoutChange.bind(this)} >
 
 
-                    <div key={'a'}>
-                        <Widget itemKey={'a'} edit={this.state.edit} canDelete={this.state.canDelete}>
-                            <SingleIndicate   bgColor={'rgb(108,202,201)'} indicate='22' desc='New Users' iconClassName='icon-comments icon-3x'/>
+                        <div key={'a'}>
+                            <Widget itemKey={'a'} edit={this.state.edit} canDelete={this.state.canDelete}>
+                                <SingleIndicate   bgColor={'rgb(108,202,201)'} indicate='22' desc='New Users' iconClassName='icon-comments icon-3x'/>
 
-                        </Widget>
-                    </div>
+                            </Widget>
+                        </div>
 
-                    <div key={'b'}>
-                        <Widget itemKey={'b'} edit={this.state.edit} canDelete={this.state.canDelete}>
-                            <SingleIndicate   bgColor={'rgb(255,109,96)'} indicate='140' desc='Sales' iconClassName='icon-tags icon-3x'/>
+                        <div key={'b'}>
+                            <Widget itemKey={'b'} edit={this.state.edit} canDelete={this.state.canDelete}>
+                                <SingleIndicate   bgColor={'rgb(255,109,96)'} indicate='140' desc='Sales' iconClassName='icon-tags icon-3x'/>
 
-                        </Widget>
+                            </Widget>
 
-                    </div>
+                        </div>
 
-                    <div key={'c'}>
-                        <Widget itemKey={'c'} edit={this.state.edit} canDelete={this.state.canDelete}>
-                            <SingleIndicate   bgColor={'rgb(248,211,71)'} indicate='345' desc='New Order' iconClassName='icon-shopping-cart icon-3x'/>
+                        <div key={'c'}>
+                            <Widget itemKey={'c'} edit={this.state.edit} canDelete={this.state.canDelete}>
+                                <SingleIndicate   bgColor={'rgb(248,211,71)'} indicate='345' desc='New Order' iconClassName='icon-shopping-cart icon-3x'/>
 
-                        </Widget>
+                            </Widget>
 
-                    </div>
+                        </div>
 
-                    <div key={'d'}>
-                        <Widget itemKey={'d'} edit={this.state.edit} canDelete={this.state.canDelete}>
-                            <SingleIndicate   bgColor={'rgb(87,200,242)'} indicate='34500' desc='Total Profit' iconClassName='icon-inbox icon-3x'/>
+                        <div key={'d'}>
+                            <Widget itemKey={'d'} edit={this.state.edit} canDelete={this.state.canDelete}>
+                                <SingleIndicate   bgColor={'rgb(87,200,242)'} indicate='34500' desc='Total Profit' iconClassName='icon-inbox icon-3x'/>
 
-                        </Widget>
+                            </Widget>
 
-                    </div>
+                        </div>
 
-                </ReactGridLayout>
+                    </ReactGridLayout>
 
-                <GridEdit clicked={this.state.editComponentClicked}
-                    handleCheckClick={this.handleCheckClick.bind(this)} 
-                    handleCloseClick={this.handleCloseClick.bind(this)}
-                    />
+                    <GridEdit clicked={this.state.editComponentClicked}
+                        handleCheckClick={this.handleCheckClick.bind(this)} 
+                        handleCloseClick={this.handleCloseClick.bind(this)}
+                        />
                 </div>
 
             )
