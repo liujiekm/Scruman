@@ -51,6 +51,7 @@ const component = (component) => {
 const Routes = ({ history }) =>
   <Router history={history}>
     <Route path="/" component={App} >
+        <IndexRoute {...component(Home)}/>
         <Route path="Home"    {...component(Home)} />
         <Route path="Config"  {...component(Config)}/>
     </Route>

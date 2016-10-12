@@ -5,9 +5,7 @@
 }
 
 html{
-    /*font-family: Roboto, sans-serif;*/
-
-    font-family: bowtie;
+    font-family: Roboto, sans-serif;
     height: 100%;
     width:100%;
 }
@@ -90,11 +88,16 @@ body{
 
 .wgt-container
 {
-    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+    /*box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;*/
 }
 .edit
 {
     background-color: darkgray
+}
+
+.delete /*删除图表样式*/
+{
+
 }
 
 .wgt-indicate-left
@@ -210,6 +213,40 @@ body{
 {opacity:0;transform:rotate(-180deg)}
 .dashboard-edit-menu-container.menu-pinned-open .open-icon
 {opacity:1;transform:rotate(0)}
+
+
+.widget-edit-menu {
+    margin: 6px;
+    text-align: right;
+    float: right;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+
+.widget-edit-menu-button-container:first-child {
+    margin-left: 0;
+}
+.widget-edit-menu-button-container {
+    display: inline-block;
+    margin-left: 4px;
+}
+
+.widget-edit-overlay-control-show .widget-edit-menu-button {
+    cursor: pointer;
+}
+.widget-edit-menu-button-container .widget-edit-menu-button {
+    display: inline-block;
+    background-color: #666;
+    border-radius: 1px;
+    border: 2px solid #666;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding: 0;
+    height: 26px;
+    width: 26px;
+}
 
 
 /*.bowtie-check {

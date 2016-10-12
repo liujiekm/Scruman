@@ -1,12 +1,18 @@
 import React, { Component, PropTypes } from 'react'
 import ReactGridLayout from 'react-grid-layout'
-//import {Responsive, WidthProvider} from 'react-grid-layout';
 
+import ReactDOMServer from 'react-dom/server'
+
+import _ from 'lodash'
+//import {Responsive, WidthProvider} from 'react-grid-layout';
+import Widget from '../../../component/widget/Widget'
 import SingleIndicate from '../../../component/widget/SingleIndicate'
 import uuid from 'uuid'
 
 
 import GridEdit from '../../../common/GridEdit'
+
+
 
 
 
@@ -22,14 +28,36 @@ class Home extends Component{
     {
         super(props)
         this.state={
+            edit:false,
+            canDelete:false,
+            editComponentClicked:false,
 
-            layout:[{"i":"a","x":0,"y":0,"w":3,"h":3,"isDraggable":true,"isResizable":false},
-                    {"i":"b","x":3,"y":0,"w":3,"h":3,"isDraggable":true,"isResizable":false},
-                    {"i":"c","x":6,"y":0,"w":3,"h":3,"isDraggable":true,"isResizable":false},
-                    {"i":"d","x":9,"y":0,"w":3,"h":3,"isDraggable":true,"isResizable":false}]
+            layout:[{"i":"a","x":0,"y":0,"w":3,"h":3,"isDraggable":true,"isResizable":false,"add":true},
+                    {"i":"b","x":3,"y":0,"w":3,"h":3,"isDraggable":true,"isResizable":false,"add":true},
+                    {"i":"c","x":6,"y":0,"w":3,"h":3,"isDraggable":true,"isResizable":false,"add":true},
+                    {"i":"d","x":9,"y":0,"w":3,"h":3,"isDraggable":true,"isResizable":false,"add":true}]
 
         }
     }
+
+    handleCheckClick()
+    {
+        if(!this.state.editComponentClicked)
+        {
+            this.setState({editComponentClicked:true,edit:true,canDelete:true});
+        }else{
+            
+            this.setState({editComponentClicked:false,edit:false,canDelete:false});
+        }
+    }
+
+    handleCloseClick()
+    {
+
+        this.setState({edit:false,canDelete:false});
+    }
+
+
 
 
     onLayoutChange(layout){
@@ -52,31 +80,52 @@ class Home extends Component{
     }
     render(){
 
+            
             return (
+
+                <div>
                 <ReactGridLayout  className="layout" layout={this.state.layout}  cols={12} rowHeight={30} width={1000}
                         onLayoutChange={this.onLayoutChange.bind(this)} >
 
 
                     <div key={'a'}>
-                         <SingleIndicate   bgColor={'rgb(108,202,201)'} indicate='22' desc='New Users' iconClassName='icon-comments icon-3x'/>
+                        <Widget itemKey={'a'} edit={this.state.edit} canDelete={this.state.canDelete}>
+                            <SingleIndicate   bgColor={'rgb(108,202,201)'} indicate='22' desc='New Users' iconClassName='icon-comments icon-3x'/>
+
+                        </Widget>
                     </div>
 
                     <div key={'b'}>
-                         <SingleIndicate   bgColor={'rgb(255,109,96)'} indicate='140' desc='Sales' iconClassName='icon-tags icon-3x'/>
+                        <Widget itemKey={'b'} edit={this.state.edit} canDelete={this.state.canDelete}>
+                            <SingleIndicate   bgColor={'rgb(255,109,96)'} indicate='140' desc='Sales' iconClassName='icon-tags icon-3x'/>
+
+                        </Widget>
 
                     </div>
 
                     <div key={'c'}>
-                         <SingleIndicate   bgColor={'rgb(248,211,71)'} indicate='345' desc='New Order' iconClassName='icon-shopping-cart icon-3x'/>
+                        <Widget itemKey={'c'} edit={this.state.edit} canDelete={this.state.canDelete}>
+                            <SingleIndicate   bgColor={'rgb(248,211,71)'} indicate='345' desc='New Order' iconClassName='icon-shopping-cart icon-3x'/>
+
+                        </Widget>
 
                     </div>
 
                     <div key={'d'}>
-                         <SingleIndicate   bgColor={'rgb(87,200,242)'} indicate='34500' desc='Total Profit' iconClassName='icon-inbox icon-3x'/>
+                        <Widget itemKey={'d'} edit={this.state.edit} canDelete={this.state.canDelete}>
+                            <SingleIndicate   bgColor={'rgb(87,200,242)'} indicate='34500' desc='Total Profit' iconClassName='icon-inbox icon-3x'/>
+
+                        </Widget>
 
                     </div>
 
                 </ReactGridLayout>
+
+                <GridEdit clicked={this.state.editComponentClicked}
+                    handleCheckClick={this.handleCheckClick.bind(this)} 
+                    handleCloseClick={this.handleCloseClick.bind(this)}
+                    />
+                </div>
 
             )
 

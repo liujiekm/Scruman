@@ -7,6 +7,9 @@ import React, { Component, PropTypes } from 'react';
 
 import classNames from 'classnames'
 
+import ClearIcon from 'material-ui/svg-icons/content/clear';
+
+
 class Widget extends Component{
     constructor(props)
     {
@@ -19,15 +22,23 @@ class Widget extends Component{
 
     render(){
 
-        let {edit,itemKey} = this.props
+        let {edit,itemKey,canDelete} = this.props;
         let wgtContainerClass = classNames({
             'wgt-container':'true',
             'edit': edit
+            
             });
         return (
 
             <div key={itemKey} className={wgtContainerClass}>
-
+                {canDelete? <div className="widget-edit-menu">
+                                <div title="从dashboard删除widget" className="widget-edit-menu-button-container">
+                                    <button className="widget-edit-menu-button" title="从dashboard删除widget">
+                                        <ClearIcon />
+                                    </button>
+                                </div>
+                            </div>:''}
+                
                 {this.props.children}
             </div>
 
@@ -41,7 +52,9 @@ class Widget extends Component{
 
 Widget.propTypes={
     edit:PropTypes.bool.isRequired,
-    itemKey:PropTypes.string.isRequired
+    itemKey:PropTypes.string.isRequired,
+    canDelete:PropTypes.bool.isRequired
+
 
 }
 
