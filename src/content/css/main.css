@@ -35,6 +35,7 @@ body{
     width: 100%;
     height: 100%;
     margin: 0 auto;
+    position: absolute;
 }
 
 
@@ -48,7 +49,8 @@ body{
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     /*box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);*/
     border-radius: 2px;
-    position: relative;
+    position: fixed;
+    top:0;
     width: 100%;
     padding-left: 0;
     z-index: 2;
@@ -68,6 +70,11 @@ body{
     height: 100%;
     float: left;
     min-width: 250px;
+
+    position: fixed;
+    left: 0;
+    top: 57px;
+    bottom: 0;
 }
 
 
@@ -81,7 +88,11 @@ body{
     /*width:85%;*/
     float: left;
     height: 100%;
-    position: relative;
+    position: absolute;
+
+    right: 0;
+    left: 20%;
+    top: 9%;
     
 }
 
@@ -249,18 +260,417 @@ body{
 }
 
 
-/*.bowtie-check {
-    content: "\e977 ";
+/*
+ Widget Choose 样式
+*/
+
+#blade-menu {
+    position: fixed;
+    top: 9%;
+    right: 0;
+    bottom: 0;
+    width: 435px;
+    z-index: 5;
+    box-shadow: -3px 0 8px rgba(0,0,0,.3);
+    background-color: #fff;
+    will-change: right;
+    border: 1px solid transparent;
 }
-.bowtie-edit {
-    content: "\e949 ";
+
+#blade-menu>div, .blade-menu-blade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.bowtie {
+    font: 14px "-apple-system",BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Ubuntu,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    box-sizing: border-box;
 }
 
 
-.bowtie-check::before {
-    content: "\e977 ";
+.blade-level-1, .blade-level-1>#catalog-widgets-container>div {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
 }
 
-.bowtie-edit::before {
-    content: "\e949 ";
-}*/
+.bowtie *, .bowtie *:before, .bowtie *:after {
+    box-sizing: inherit;
+}
+
+.blade-menu-blade.blade-level-1 h3 {
+    padding: 20px 0 24px 24px;
+}
+.blade-menu-blade h3.ui-dialog-title {
+    color: #222;
+    font-size: 25px;
+    line-height: 30px;
+    font-weight: 300;
+    text-transform: none;
+    white-space: pre-wrap;
+}
+.blade-menu-blade h3 {
+    font-size: 21px;
+    font-family: 'Segoe UI','Tahoma','Arial','Verdana';
+    font-weight: normal;
+    line-height: 24px;
+    margin: 0 24px 0 0;
+    padding: 15px 0 0 15px;
+    color: #424245;
+    text-transform: none;
+}
+
+.blade-level-1>#catalog-widgets-container {
+    overflow: hidden;
+}
+.blade-level-1>#catalog-widgets-container, .blade-level-1 .widget-list-container {
+    -ms-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+}
+.main-blade-container {
+    overflow: auto;
+    height: calc(100% - 114px);
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+
+.blade-level-1, .blade-level-1>#catalog-widgets-container>div {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+.blade-menu-blade #catalog-widgets-container>div {
+    height: calc(100% - 30px);
+}
+
+
+.blade-menu-blade .inline-error-configuration {
+    color: #e51400;
+    font-size: 12px;
+    line-height: 16px;
+    min-height: 25px;
+    display: inline-block;
+    padding-top: 2px;
+    max-width: 399px;
+    visibility: hidden;
+}
+.bowtie-blade .inline-error-configuration {
+    margin-left: 24px;
+}
+
+
+.bowtie div.icon-input-container, .bowtie.modal-dialog div.icon-input-container, .modal-dialog .bowtie div.icon-input-container {
+    display: inline-block;
+    position: relative;
+}
+.blade-menu-blade .widget-searchterm-container {
+    float: right;
+    width: calc(100% - 40px);
+    margin-right: 24px;
+    margin-bottom: 24px;
+    margin-left: 24px;
+    position: relative;
+}
+
+
+.blade-menu-blade .widget-preview-tile:hover, .blade-menu-blade .widget-preview-tile.tabhover {
+    cursor: pointer;
+    background-color: #f2f7fd;
+}
+
+
+
+
+.bowtie div.icon-input-container.right input[type=text], .bowtie.modal-dialog div.icon-input-container.right input[type=text], .modal-dialog .bowtie div.icon-input-container.right input[type=text] {
+    padding-right: 22px;
+}
+.bowtie input[type=text], .vc-create-branch-work-item-artifacts .vc-pullrequest-view-details-relatedartifacts-addartifactbox {
+    border: 1px solid #ccc;
+    margin-top: 0;
+    width: 100%;
+}
+.bowtie input[type=text], .bowtie.modal-dialog input[type=text], .modal-dialog .bowtie input[type=text] {
+    background-color: #fff;
+    border: 1px solid #dedede;
+    padding: 0 8px;
+    width: 100%;
+    height: 32px;
+}
+.bowtie input, .bowtie.modal-dialog input, .modal-dialog .bowtie input {
+    outline: 0;
+    display: inline-block;
+}
+.bowtie *, .bowtie *:before, .bowtie *:after {
+    box-sizing: inherit;
+}
+input, textarea, select {
+    background-color: #fff;
+}
+
+
+.blade-menu-blade .status-indicator.center {
+    height: calc(100% - 26px);
+}
+.status-indicator.center {
+    width: 100%;
+    height: 100%;
+}
+.status-indicator {
+    margin-right: 5px;
+}
+
+
+.big-status-progress {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    /*background: url(../../_content/big-progress.gif) no-repeat 0 0 !important;*/
+}
+.icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.blade-menu-blade .widget-list-noresults {
+    clear: both;
+    height: calc(100% - 99px);
+    text-align: center;
+    font-size: 14px;
+}
+
+.blade-level-1>#catalog-widgets-container, .blade-level-1 .widget-list-container {
+    -ms-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+}
+.blade-menu-blade .widget-list-container {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 100%;
+    border-bottom: 1px solid #e8e8e8;
+    border-top: 1px solid #e8e8e8;
+}
+
+
+.blade-menu-blade .extension-gallery-marketing {
+    margin-left: 24px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+
+.bowtie-blade .blade-configuration-buttons {
+    margin-top: 15px;
+}
+#configuration-containers, .blade-configuration-buttons {
+    margin-left: 15px;
+}
+.blade-configuration-buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 32px;
+    margin-right: 24px;
+    margin-bottom: 24px;
+}
+
+.blade-configuration-buttons>nav {
+    float: right;
+}
+.blade-configuration-buttons>nav>button:disabled {
+    cursor: default;
+}
+.bowtie button:disabled, .bowtie button:disabled:hover, .bowtie button:disabled:focus, .bowtie button:disabled:active {
+    background-color: #e7e7e7;
+    border: 2px solid #e7e7e7;
+    color: #9c9c9c;
+}
+.bowtie button.cta, .bowtie button.btn-cta {
+    background-color: #007acc;
+    border-color: #007acc;
+    color: #fff;
+}
+
+
+
+.bowtie button {
+    border-radius: 0;
+    background-color: #ccc;
+    border: 2px solid #ccc;
+    outline: 0;
+    height: 32px;
+    min-width: 90px;
+    color: #222;
+    font: 14px "-apple-system",BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Ubuntu,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    margin-right: 8px;
+    padding: 0 4px;
+    vertical-align: top;
+}
+button[disabled], button[disabled]:hover, button[disabled]:focus {
+    color: #ababab;
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+
+
+
+.bowtie button:last-child {
+    margin-right: 0;
+}
+
+button, button.ui-state-default, button.ui-button {
+    font-family: "-apple-system",BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Ubuntu,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    height: 30px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    color: #333;
+    cursor: pointer;
+    border-radius: 2px;
+    outline: 0;
+    padding: 2px 12px 2px 12px;
+}
+
+#blade-menu>div, .blade-menu-blade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+
+
+
+
+/*WidgetChooseItem 组件样式*/
+
+.blade-menu-blade .widget-preview-tile {
+    border-bottom: 1px solid #eee;
+    min-height: 140px;
+    padding: 10px 24px 10px 24px;
+    outline: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.blade-menu-blade .widget-maincontent {
+    width: 390px;
+    height: 120px;
+}
+
+.blade-menu-blade .widget-preview-moreinfo {
+    font-size: 14px;
+    line-height: 14px;
+    color: #222;
+    padding-top: 0;
+    height: 16px;
+    overflow: hidden;
+}
+
+.blade-menu-blade .widget-preview-tile .widget-preview-image {
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100px;
+    height: 100px;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    border: 1px solid #dedede;
+    float: left;
+    margin-top: 10px;
+}
+
+.blade-menu-blade .widget-preview-text {
+    font-size: 14px;
+    line-height: 20px;
+    color: #222;
+    margin-top: 10px;
+    float: left;
+    width: 260px;
+    margin-left: 20px;
+}
+
+.blade-menu-blade .widget-preview-tile .widget-name {
+    font-size: 18px;
+    line-height: 24px;
+    color: #222;
+    padding: 0 0 0 0;
+    margin-top: -3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.blade-menu-blade .widget-preview-tile .widget-description {
+    font-size: 14px;
+    line-height: 20px;
+    color: #222;
+    margin-top: 7px;
+    width: 260px;
+    height: 60px;
+    overflow: hidden;
+}
+
+.blade-menu-blade .widget-publishername {
+    float: left;
+}
+
+
+
+.blade-menu-blade .widget-learnmore-link {
+    float: right;
+    color: #0d60ab;
+}
+
+.blade-menu-blade .widget-learnmore-link a {
+    padding-right: 2px;
+}
+
+.bowtie-icon, .bowtie>i {
+    font-family: "bowtie";
+    font-size: 14px;
+    speak: none;
+    display: inline-block;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-align: center;
+    text-decoration: none;
+    line-height: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.blade-menu-blade .widget-preview-tile.selected, .blade-menu-blade .widget-preview-tile.selected:hover, .blade-menu-blade .widget-preview-tile.selected.tabhover {
+    background-color: #b8d6fb;
+}
+
+
+
+
+
+
+
+

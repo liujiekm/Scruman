@@ -48,6 +48,12 @@ class GridEidt extends Component{
     {
         this.props.handleCloseClick();
     }
+
+
+    handleAddClick(e) //调出增加widgets选择组件
+    {
+        this.props.handleAddClick()
+    }
     render(){
 
         return (
@@ -65,7 +71,7 @@ class GridEidt extends Component{
                             <SaveIcon color={'white'}/>
                         </div>
                     </div>
-                    <div className="edit-menu">
+                    <div className="edit-menu" onClick={this.handleAddClick.bind(this)}>
                         <div role="button"  title="Add Widget" className="button add-widget-button propagate-keydown-event" >
                             <div className="button-icon bowtie-math-plus">
                                 <AddIcon color={'white'} />
@@ -80,7 +86,8 @@ class GridEidt extends Component{
 
 GridEidt.propTypes={
     clicked:PropTypes.bool.isRequired,
-    handleCheckClick:PropTypes.func.isRequired
+    handleCheckClick:PropTypes.func.isRequired,
+    handleAddClick:PropTypes.func.isRequired
 }
 
 
