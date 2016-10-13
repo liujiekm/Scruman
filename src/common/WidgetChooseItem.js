@@ -12,13 +12,14 @@ class WidgetChooseItem extends Component{
 
     handleItemClick()
     {
-        $(this.refs.widgetItem).addClass('selected tabhover');
+        $(this.refs.widgetItem).addClass('selected tabhover').siblings().removeClass('selected tabhover');
+        this.props.handleItemClick(this.props.itemId);
     }
 
 
     render()
     {
-        let {imgUrl,widgetName,widgetDesc} = this.props
+        let {imgUrl,widgetName,widgetDesc,widgetCreateObj} = this.props
         return (
 
                 <div ref='widgetItem' className="widget-preview-tile ui-draggable ui-draggable-handle" onClick={this.handleItemClick.bind(this)}>
@@ -45,12 +46,12 @@ class WidgetChooseItem extends Component{
 WidgetChooseItem.propTypes={
     imgUrl:PropTypes.string.isRequired,
     widgetName:PropTypes.string.isRequired,
-    widgetDesc:PropTypes.string.isRequired
+    widgetDesc:PropTypes.string.isRequired,
+    widgetCreateObj:PropTypes.object.isRequired,
+    handleItemClick:PropTypes.func.isRequired
 
 
 }
-
-
 module.exports = WidgetChooseItem;
 
 

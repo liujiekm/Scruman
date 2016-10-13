@@ -53,6 +53,21 @@
 "./src/content/img/assignedToMe.png"
 
 
+ <WidgetChooseItem imgUrl='./src/content/img/assignedToMe.png' 
+                widgetName='焦点数据'  
+                widgetDesc='集中显示用户比较关心的焦点数据，一目了然，明确，明显'
+                handleItemClick={this.handleItemClick.bind(this)}
+                widgetCreateObj={
+                    {
+                        type:'SingleIndicate',
+                        props:
+                            {indicate:'911',bgColor:'rgb(255,109,96)',desc:'Happend',iconClassName:'icon-tags icon-3x'}
+                        }
+                    } 
+/>
+                                                
+
+
 
 
 

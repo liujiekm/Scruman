@@ -53,7 +53,8 @@ SingleIndicate.propTypes={
     
     indicate:PropTypes.string.isRequired,
     desc:PropTypes.string.isRequired,
-    iconClassName:PropTypes.string.isRequired
+    iconClassName:PropTypes.string.isRequired,
+    bgColor:PropTypes.string.isRequired
     
 }
 

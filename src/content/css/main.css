@@ -557,7 +557,11 @@ button, button.ui-state-default, button.ui-button {
     bottom: 0;
 }
 
-
+.bowtie button:disabled, .bowtie button:disabled:hover, .bowtie button:disabled:focus, .bowtie button:disabled:active {
+    background-color: #e7e7e7;
+    border: 2px solid #e7e7e7;
+    color: #9c9c9c;
+}
 
 
 
