@@ -24,11 +24,46 @@ class Home extends Component{
             canDelete:false,
             editComponentClicked:false,
             showWidgetChoose:false,
-            layout:[{"i":"a","x":0,"y":0,"w":3,"h":3,"isDraggable":false,"isResizable":false,"add":true},
-                    {"i":"b","x":3,"y":0,"w":3,"h":3,"isDraggable":false,"isResizable":false,"add":true},
-                    {"i":"c","x":6,"y":0,"w":3,"h":3,"isDraggable":false,"isResizable":false,"add":true},
-                    {"i":"d","x":9,"y":0,"w":3,"h":3,"isDraggable":false,"isResizable":false,"add":true}],
-            widgetItems:[]
+            widgets:[{
+                        layout:{"x":0,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
+                        widgetCreateObj:{
+                                            type:'SingleIndicate',
+                                            props:{
+                                                    bgColor:'rgb(108,202,201)', indicate:'22', desc:'New Users' ,iconClassName:'icon-comments icon-3x'
+                                                  }
+                                        }
+                    },{
+                        layout:{"x":3,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
+                        widgetCreateObj:{
+                            type:'SingleIndicate',
+                            props:{
+                                    bgColor:'rgb(255,109,96)', indicate:'140', desc:'Sales' ,iconClassName:'icon-tags icon-3x'
+                                    }
+                        }
+                    },{
+                        layout:{"x":6,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
+                        widgetCreateObj:{
+                            type:'SingleIndicate',
+                            props:{
+                                    bgColor:'rgb(248,211,71)', indicate:'345', desc:'New Order' ,iconClassName:'icon-shopping-cart icon-3x'
+                                    }
+                        }
+                    },{
+                        layout:{"x":9,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
+                        widgetCreateObj:{
+                            type:'SingleIndicate',
+                            props:{
+                                    bgColor:'rgb(87,200,242)', indicate:'34500', desc:'Total Profit' ,iconClassName:'icon-inbox icon-3x'
+                                    }
+                        }
+                    }],
+
+
+            layout:[{"i":"a","x":0,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
+                    {"i":"b","x":3,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
+                    {"i":"c","x":6,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
+                    {"i":"d","x":9,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false}],
+            widgetItems:[] //widget lists 的数据源
 
         }
     }
@@ -124,7 +159,13 @@ class Home extends Component{
     handleChoose(itemId) //选择widget控件加入layout
     {
         //根据itemId获取WorkItems 中需要动态创建Component所需的变量
+        let selectedItem = _.find(this.state.widgetItems,{id:itemId});
+        this.setState({
+        widgets:this.state.widgets.concat({})
 
+
+        });
+        
     }
 
 
@@ -135,9 +176,17 @@ class Home extends Component{
     }
 
     //生成Grid Layout中的Grid Item
-    produceGridItems()
+    produceGridItems(widget)
     {
-        
+        return (
+            <div key={uuid.v1()} data-grid={widget.layout}>
+                <Widget  edit={this.state.edit} canDelete={this.state.canDelete}>
+                    {React.createElement(widget.widgetCreateObj.type,widget.widgetCreateObj.props)}
+                </Widget>
+            </div>
+
+
+        );
     }
 
 
@@ -147,19 +196,20 @@ class Home extends Component{
             return (
 
                 <div>
-                    <ReactGridLayout  className="layout" layout={this.state.layout}  cols={12} rowHeight={30} width={1000} isDraggable={this.state.edit}
+                    <ReactGridLayout  className="layout" layout={this.state.layout}  
+                        cols={12} rowHeight={30} width={1000} isDraggable={this.state.edit}
                             onLayoutChange={this.onLayoutChange.bind(this)} >
 
 
-                        <div key={'a'}>
-                            <Widget itemKey={'a'} edit={this.state.edit} canDelete={this.state.canDelete}>
+                        <div key={'a'} >
+                            <Widget edit={this.state.edit} canDelete={this.state.canDelete}>
                                 <SingleIndicate   bgColor={'rgb(108,202,201)'} indicate='22' desc='New Users' iconClassName='icon-comments icon-3x'/>
 
                             </Widget>
                         </div>
 
                         <div key={'b'}>
-                            <Widget itemKey={'b'} edit={this.state.edit} canDelete={this.state.canDelete}>
+                            <Widget edit={this.state.edit} canDelete={this.state.canDelete}>
                                 <SingleIndicate   bgColor={'rgb(255,109,96)'} indicate='140' desc='Sales' iconClassName='icon-tags icon-3x'/>
 
                             </Widget>
@@ -167,7 +217,7 @@ class Home extends Component{
                         </div>
 
                         <div key={'c'}>
-                            <Widget itemKey={'c'} edit={this.state.edit} canDelete={this.state.canDelete}>
+                            <Widget edit={this.state.edit} canDelete={this.state.canDelete}>
                                 <SingleIndicate   bgColor={'rgb(248,211,71)'} indicate='345' desc='New Order' iconClassName='icon-shopping-cart icon-3x'/>
 
                             </Widget>
@@ -175,7 +225,7 @@ class Home extends Component{
                         </div>
 
                         <div key={'d'}>
-                            <Widget itemKey={'d'} edit={this.state.edit} canDelete={this.state.canDelete}>
+                            <Widget edit={this.state.edit} canDelete={this.state.canDelete}>
                                 <SingleIndicate   bgColor={'rgb(87,200,242)'} indicate='34500' desc='Total Profit' iconClassName='icon-inbox icon-3x'/>
 
                             </Widget>

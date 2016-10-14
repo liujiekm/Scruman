@@ -30,7 +30,7 @@ class Widget extends Component{
             });
         return (
 
-            <div key={itemKey} className={wgtContainerClass}>
+            <div className={wgtContainerClass}>
                 {canDelete? <div className="widget-edit-menu">
                                 <div title="从dashboard删除widget" className="widget-edit-menu-button-container">
                                     <button className="widget-edit-menu-button" title="从dashboard删除widget">
@@ -52,7 +52,7 @@ class Widget extends Component{
 
 Widget.propTypes={
     edit:PropTypes.bool.isRequired,
-    itemKey:PropTypes.string.isRequired,
+    
     canDelete:PropTypes.bool.isRequired
 
 
