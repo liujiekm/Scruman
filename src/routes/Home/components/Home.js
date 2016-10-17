@@ -1,10 +1,15 @@
 import React, { Component, PropTypes } from 'react'
+import { render } from 'react-dom'
+import PureRenderMixin  from 'react/lib/ReactComponentWithPureRenderMixin'
 import ReactGridLayout from 'react-grid-layout'
-import ReactDOMServer from 'react-dom/server'
+import ReactDOMServer from 'react/lib/ReactDOMServer'
 import _ from 'lodash'
+import path from 'path'
 //import {Responsive, WidthProvider} from 'react-grid-layout';
 import Widget from '../../../component/widget/Widget'
 import SingleIndicate from '../../../component/widget/SingleIndicate'
+
+import ModuleLoader from '../../../component/widget/ModuleLoader'
 import uuid from 'uuid'
 import GridEdit from '../../../common/GridEdit'
 import WidgetChoose from '../../../common/WidgetChoose'
@@ -15,25 +20,27 @@ var ResponsiveReactGridLayout = require('react-grid-layout').Responsive;
 
 
 class Home extends Component{
+    
 
     constructor(props)
     {
         super(props)
+        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this.state={
             edit:false,
             canDelete:false,
             editComponentClicked:false,
             showWidgetChoose:false,
             widgets:[{
-                        layout:{"x":0,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
+                        layoutId:"a",
                         widgetCreateObj:{
-                                            type:'SingleIndicate',
-                                            props:{
-                                                    bgColor:'rgb(108,202,201)', indicate:'22', desc:'New Users' ,iconClassName:'icon-comments icon-3x'
-                                                  }
-                                        }
+                            type:'SingleIndicate',
+                            props:{
+                                    bgColor:'rgb(108,202,201)', indicate:'22', desc:'New Users' ,iconClassName:'icon-comments icon-3x'
+                                    }
+                        }
                     },{
-                        layout:{"x":3,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
+                        layoutId:"b",
                         widgetCreateObj:{
                             type:'SingleIndicate',
                             props:{
@@ -41,7 +48,7 @@ class Home extends Component{
                                     }
                         }
                     },{
-                        layout:{"x":6,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
+                        layoutId:"c",
                         widgetCreateObj:{
                             type:'SingleIndicate',
                             props:{
@@ -49,12 +56,12 @@ class Home extends Component{
                                     }
                         }
                     },{
-                        layout:{"x":9,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
+                        layoutId:"d",
                         widgetCreateObj:{
                             type:'SingleIndicate',
                             props:{
                                     bgColor:'rgb(87,200,242)', indicate:'34500', desc:'Total Profit' ,iconClassName:'icon-inbox icon-3x'
-                                    }
+                                }
                         }
                     }],
 
@@ -138,14 +145,17 @@ class Home extends Component{
                             ]
 
 
-        if(localStorage.homeLayout)
+        if(localStorage.homeLayout&&localStorage.widgets)
         {
-            this.setState({layout:JSON.parse(localStorage.getItem('homeLayout')),widgetItems:fakeWorkItems});
+            console.log('in');
+            this.setState({layout:JSON.parse(localStorage.getItem('homeLayout')),widgets:JSON.parse(localStorage.getItem('widgets')),widgetItems:fakeWorkItems});
         }
+        console.log('not in');
     }
     componentWillUnmount()
     {
         localStorage.setItem('homeLayout',JSON.stringify(this.state.layout));
+        localStorage.setItem('widgets',JSON.stringify(this.state.widgets));
     }
     componentDidMount()
     {
@@ -160,10 +170,19 @@ class Home extends Component{
     {
         //根据itemId获取WorkItems 中需要动态创建Component所需的变量
         let selectedItem = _.find(this.state.widgetItems,{id:itemId});
+        let layoutId = uuid.v1();
         this.setState({
-        widgets:this.state.widgets.concat({})
-
-
+            layout:this.state.layout.concat({
+                i: layoutId,
+                x: 0,
+                y: Infinity, // puts it at the bottom
+                w: 3,
+                h: 1
+            }),
+            widgets:this.state.widgets.concat({
+                layoutId:layoutId,
+                widgetCreateObj:selectedItem.widgetCreateObj
+            })
         });
         
     }
@@ -178,60 +197,37 @@ class Home extends Component{
     //生成Grid Layout中的Grid Item
     produceGridItems(widget)
     {
+        let element = React.createElement(ModuleLoader(widget.widgetCreateObj.type),{data:widget.widgetCreateObj.props});
         return (
-            <div key={uuid.v1()} data-grid={widget.layout}>
+            <div key={widget.layoutId}>
                 <Widget  edit={this.state.edit} canDelete={this.state.canDelete}>
-                    {React.createElement(widget.widgetCreateObj.type,widget.widgetCreateObj.props)}
+                    {element}
                 </Widget>
             </div>
-
-
         );
+    
+
+
     }
 
+    createReactComponent(type,props){
 
+        let rc= React.createClass({
+            render:function(){
+
+            }
+        })
+        return rc;
+    }
 
     render(){
 
             return (
-
                 <div>
                     <ReactGridLayout  className="layout" layout={this.state.layout}  
                         cols={12} rowHeight={30} width={1000} isDraggable={this.state.edit}
                             onLayoutChange={this.onLayoutChange.bind(this)} >
-
-
-                        <div key={'a'} >
-                            <Widget edit={this.state.edit} canDelete={this.state.canDelete}>
-                                <SingleIndicate   bgColor={'rgb(108,202,201)'} indicate='22' desc='New Users' iconClassName='icon-comments icon-3x'/>
-
-                            </Widget>
-                        </div>
-
-                        <div key={'b'}>
-                            <Widget edit={this.state.edit} canDelete={this.state.canDelete}>
-                                <SingleIndicate   bgColor={'rgb(255,109,96)'} indicate='140' desc='Sales' iconClassName='icon-tags icon-3x'/>
-
-                            </Widget>
-
-                        </div>
-
-                        <div key={'c'}>
-                            <Widget edit={this.state.edit} canDelete={this.state.canDelete}>
-                                <SingleIndicate   bgColor={'rgb(248,211,71)'} indicate='345' desc='New Order' iconClassName='icon-shopping-cart icon-3x'/>
-
-                            </Widget>
-
-                        </div>
-
-                        <div key={'d'}>
-                            <Widget edit={this.state.edit} canDelete={this.state.canDelete}>
-                                <SingleIndicate   bgColor={'rgb(87,200,242)'} indicate='34500' desc='Total Profit' iconClassName='icon-inbox icon-3x'/>
-
-                            </Widget>
-
-                        </div>
-
+                        {_.map(this.state.widgets, this.produceGridItems.bind(this))}
                     </ReactGridLayout>
 
                     <GridEdit   clicked={this.state.editComponentClicked}

@@ -28,6 +28,7 @@ class Widget extends Component{
             'edit': edit
             
             });
+        
         return (
 
             <div className={wgtContainerClass}>
