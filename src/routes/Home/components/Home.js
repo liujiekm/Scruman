@@ -66,10 +66,10 @@ class Home extends Component{
                     }],
 
 
-            layout:[{"i":"a","x":0,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
-                    {"i":"b","x":3,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
-                    {"i":"c","x":6,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false},
-                    {"i":"d","x":9,"y":0,"w":3,"h":1,"isDraggable":false,"isResizable":false}],
+            layout:[{"i":"a","x":0,"y":0,"w":3,"h":2,"isDraggable":false,"isResizable":false},
+                    {"i":"b","x":3,"y":0,"w":3,"h":2,"isDraggable":false,"isResizable":false},
+                    {"i":"c","x":6,"y":0,"w":3,"h":2,"isDraggable":false,"isResizable":false},
+                    {"i":"d","x":9,"y":0,"w":3,"h":2,"isDraggable":false,"isResizable":false}],
             widgetItems:[] //widget lists 的数据源
 
         }
@@ -177,7 +177,9 @@ class Home extends Component{
                 x: 0,
                 y: Infinity, // puts it at the bottom
                 w: 3,
-                h: 1
+                h: 2,
+                "isDraggable":true,
+                "isResizable":false
             }),
             widgets:this.state.widgets.concat({
                 layoutId:layoutId,
