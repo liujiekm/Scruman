@@ -99,11 +99,18 @@ body{
 
 .wgt-container
 {
+    display: inline-block;
+    position: absolute;
+    height: 100%;
     /*box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;*/
 }
 .edit
 {
-    background-color: darkgray
+    background: rgba(255,255,255,.5);
+    z-index: 6;
+}
+.hide{
+    display: none;
 }
 
 .delete /*删除图表样式*/
@@ -227,7 +234,11 @@ body{
 
 
 .widget-edit-menu {
-    margin: 6px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 2px;
+    z-index: 5;
     text-align: right;
     float: right;
     opacity: 1;
@@ -669,6 +680,36 @@ button, button.ui-state-default, button.ui-button {
 
 .blade-menu-blade .widget-preview-tile.selected, .blade-menu-blade .widget-preview-tile.selected:hover, .blade-menu-blade .widget-preview-tile.selected.tabhover {
     background-color: #b8d6fb;
+}
+
+
+
+
+
+/* chart widget small */
+
+.chart-container
+{
+    color: white;
+    border-color: #154A6A;
+    background: url('../img/30blue.png') repeat;
+    cursor: 'pointer';
+  
+  box-shadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px'
+
+}
+
+
+
+.chart-size
+{
+    height:110px;
+    width:350px;
+}
+
+.detail-chart {
+    height: 300px;
+    width:650px;
 }
 
 

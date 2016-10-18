@@ -19,28 +19,35 @@ class Widget extends Component{
         }
 
     }
-
     render(){
 
-        let {edit,itemKey,canDelete} = this.props;
+        let {edit,itemKey,canDelete,layoutId} = this.props;
         let wgtContainerClass = classNames({
             'wgt-container':'true',
             'edit': edit
+            
+            });
+        let wgtEditMenuClass=classNames({
+            'widget-edit-menu':'true',
+            'hide':!canDelete
             
             });
         
         return (
 
             <div className={wgtContainerClass}>
-                {canDelete? <div className="widget-edit-menu">
-                                <div title="从dashboard删除widget" className="widget-edit-menu-button-container">
-                                    <button className="widget-edit-menu-button" title="从dashboard删除widget">
-                                        <ClearIcon />
-                                    </button>
-                                </div>
-                            </div>:''}
+                <div className={wgtEditMenuClass}>
+                    <div title="从dashboard删除widget" className="widget-edit-menu-button-container">
+                        <button className="widget-edit-menu-button" title="从dashboard删除widget"  onClick={this.props.handleDelete.bind(this,layoutId)}>
+                            <ClearIcon />
+                        </button>
+                    </div>
+                </div>
                 
                 {this.props.children}
+
+
+                
             </div>
 
         )

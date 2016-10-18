@@ -6,7 +6,7 @@ import uuid from 'uuid'
 const style={
   height: 75,
   width: 250,
-  margin: 10,
+
   textAlign: 'center',
   display: 'inline-block',
   position:'relative',

@@ -66,10 +66,10 @@ class Home extends Component{
                     }],
 
 
-            layout:[{"i":"a","x":0,"y":0,"w":3,"h":2,"isDraggable":false,"isResizable":false},
-                    {"i":"b","x":3,"y":0,"w":3,"h":2,"isDraggable":false,"isResizable":false},
-                    {"i":"c","x":6,"y":0,"w":3,"h":2,"isDraggable":false,"isResizable":false},
-                    {"i":"d","x":9,"y":0,"w":3,"h":2,"isDraggable":false,"isResizable":false}],
+            layout:[{"i":"a","x":0,"y":0,"w":4,"h":1,"isDraggable":false,"isResizable":false},
+                    {"i":"b","x":3,"y":0,"w":4,"h":1,"isDraggable":false,"isResizable":false},
+                    {"i":"c","x":6,"y":0,"w":4,"h":1,"isDraggable":false,"isResizable":false},
+                    {"i":"d","x":9,"y":0,"w":4,"h":1,"isDraggable":false,"isResizable":false}],
             widgetItems:[] //widget lists 的数据源
 
         }
@@ -122,7 +122,12 @@ class Home extends Component{
                                                     bgColor:'rgb(255,109,96)',
                                                     desc:'Happend',
                                                     iconClassName:'icon-tags icon-3x'
-                                                }
+                                                },
+                                            size:
+                                            {
+                                                w:3,
+                                                    h:2
+                                            }
                                         }
                                 },
                                 {
@@ -139,7 +144,50 @@ class Home extends Component{
                                                     bgColor:'rgb(155,109,96)',
                                                     desc:'Already',
                                                     iconClassName:'icon-tags icon-3x'
-                                                }
+                                                },
+                                            size:
+                                            {
+                                                w:3,
+                                                    h:2
+                                            }
+                                        }
+                                },
+                                {
+                                    id:'3',
+                                    imgUrl:'./src/content/img/assignedToMe.png',
+                                    widgetName:'Echart Widget',
+                                    widgetDesc:'历史趋势图',
+                                    widgetCreateObj:
+                                        {
+                                            type:'EchartWidget',
+                                            props:
+                                                {
+                                                    
+                                                },
+                                            size:
+                                            {
+                                                w:4,
+                                                h:3
+                                            }
+                                        }
+                                },
+                                {
+                                    id:'4',
+                                    imgUrl:'./src/content/img/assignedToMe.png',
+                                    widgetName:'Echart Detail Widget',
+                                    widgetDesc:'详细图表',
+                                    widgetCreateObj:
+                                        {
+                                            type:'EchartWidgetNormal',
+                                            props:
+                                                {
+                                                    
+                                                },
+                                            size:
+                                            {
+                                                w:7,
+                                                h:7
+                                            }
                                         }
                                 }
                             ]
@@ -147,10 +195,9 @@ class Home extends Component{
 
         if(localStorage.homeLayout&&localStorage.widgets)
         {
-            console.log('in');
             this.setState({layout:JSON.parse(localStorage.getItem('homeLayout')),widgets:JSON.parse(localStorage.getItem('widgets')),widgetItems:fakeWorkItems});
         }
-        console.log('not in');
+
     }
     componentWillUnmount()
     {
@@ -176,15 +223,16 @@ class Home extends Component{
                 i: layoutId,
                 x: 0,
                 y: Infinity, // puts it at the bottom
-                w: 3,
-                h: 2,
+                w: selectedItem.widgetCreateObj.size.w,
+                h: selectedItem.widgetCreateObj.size.h,
                 "isDraggable":true,
                 "isResizable":false
             }),
             widgets:this.state.widgets.concat({
                 layoutId:layoutId,
                 widgetCreateObj:selectedItem.widgetCreateObj
-            })
+            }),
+            widgetItems:_.reject(this.state.widgetItems,{id:itemId}) //选择添加项目，添加之后不可以再次添加
         });
         
     }
@@ -202,7 +250,7 @@ class Home extends Component{
         let element = React.createElement(ModuleLoader(widget.widgetCreateObj.type),{data:widget.widgetCreateObj.props});
         return (
             <div key={widget.layoutId}>
-                <Widget  edit={this.state.edit} canDelete={this.state.canDelete}>
+                <Widget  edit={this.state.edit} canDelete={this.state.canDelete} layoutId={widget.layoutId} handleDelete={this.handleDelete.bind(this)}>
                     {element}
                 </Widget>
             </div>
@@ -212,22 +260,18 @@ class Home extends Component{
 
     }
 
-    createReactComponent(type,props){
+    handleDelete(layoutId)
+    {
 
-        let rc= React.createClass({
-            render:function(){
-
-            }
-        })
-        return rc;
+        this.setState({layout: _.reject(this.state.layout, {i: layoutId}),
+                        widgets:_.reject(this.state.widgets,{layoutId:layoutId})});
     }
-
     render(){
 
             return (
                 <div>
                     <ReactGridLayout  className="layout" layout={this.state.layout}  
-                        cols={12} rowHeight={30} width={1000} isDraggable={this.state.edit}
+                        cols={10} rowHeight={30} width={1000} isDraggable={this.state.edit} margin={[15,15]}
                             onLayoutChange={this.onLayoutChange.bind(this)} >
                         {_.map(this.state.widgets, this.produceGridItems.bind(this))}
                     </ReactGridLayout>
