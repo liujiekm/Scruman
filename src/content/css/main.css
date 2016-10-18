@@ -694,8 +694,9 @@ button, button.ui-state-default, button.ui-button {
     border-color: #154A6A;
     background: url('../img/30blue.png') repeat;
     cursor: 'pointer';
+    
   
-  box-shadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px'
+    box-shadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px'
 
 }
 
@@ -705,11 +706,13 @@ button, button.ui-state-default, button.ui-button {
 {
     height:110px;
     width:350px;
+    box-shadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px'
 }
 
 .detail-chart {
     height: 300px;
     width:650px;
+    box-shadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px'
 }
 
 
