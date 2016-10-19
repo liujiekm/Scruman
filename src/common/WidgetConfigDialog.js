@@ -8,6 +8,9 @@ import React, { Component, PropTypes } from 'react'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import _ from 'lodash'
+import uuid from 'uuid'
+import ModuleLoader from '../component/widget/ModuleLoader'
 
 
 class WidgetConfigDialog extends Component {
@@ -15,18 +18,48 @@ class WidgetConfigDialog extends Component {
     constructor(props)
     {
         super(props)
+        this.state={
+          
+          
+        }
 
     }
 
 
 
+  
+  componentWillReceiveProps(nextProps)
+  {
+    this.state={
+          currentProps:nextProps.widgetProps.props
+          
+    }
+  }
 
 
 
+  handleOptionSave() //配置项目修改完成提交
+  {
+    this.props.handleOptionSave(this.props.widgetProps.layoutId,this.state.currentProps);
+  }
+
+  produceComponent(widgetProp) //widgetProp 被_.forIn处理成key value的结构对象
+  {
+    widgetProp.handleTextChange=this.handleTextChange.bind(this);
+    return React.createElement(ModuleLoader('MaterialText'),{key:uuid.v1(),data:widgetProp});
+    
+  }
+
+  handleTextChange(savedProps)
+  {
+    //找到currentProps中的对应项目，修改其值
+    this.state.currentProps[savedProps.key]=savedProps.value;
+    this.setState({currentProps:this.state.currentProps});
+  }
   render() {
 
 
-    let {open,handleClose} = this.props;
+    let {open,handleClose,widgetProps} = this.props;
     const actions = [
       <FlatButton
         label="Cancel"
@@ -37,10 +70,16 @@ class WidgetConfigDialog extends Component {
         label="Submit"
         primary={true}
         keyboardFocused={true}
-        onTouchTap={handleClose}
+        onTouchTap={this.handleOptionSave.bind(this)}
       />,
     ];
 
+
+    let elements = [];
+    var self = this;
+    _.forIn(this.state.currentProps,function(value,key){
+            elements.push(self.produceComponent({key,value}));
+    });
     return (
 
         <Dialog
@@ -50,7 +89,7 @@ class WidgetConfigDialog extends Component {
           open={open}
           onRequestClose={handleClose}
         >
-          The actions in this window were passed in as an array of React objects.
+          {elements}
         </Dialog>
 
     );
@@ -60,7 +99,7 @@ class WidgetConfigDialog extends Component {
 
 WidgetConfigDialog.propTypes={
     handleClose:PropTypes.func.isRequired,
-    
+    widgetProps:PropTypes.object.isRequired,
     open:PropTypes.bool.isRequired
 }
 

@@ -76,7 +76,7 @@ class Home extends Component{
                     {"i":"c","x":6,"y":0,"w":4,"h":1,"isDraggable":false,"isResizable":false},
                     {"i":"d","x":9,"y":0,"w":4,"h":1,"isDraggable":false,"isResizable":false}],
             widgetItems:[], //widget lists 的数据源
-            currentWidgetProps:{}
+            selectedWidgetOption:{layoutId:'',props:{}} //当前待修改属性的widget的props配置内容
 
         }
     }
@@ -257,7 +257,7 @@ class Home extends Component{
         return (
             <div key={widget.layoutId}>
                 <Widget  edit={this.state.edit} canDelete={this.state.canDelete} layoutId={widget.layoutId} 
-                    handleDialogOpen={this.handleDialogOpen.bind(this)}
+                    handleDialogOpen={this.handleDialogOpen.bind(this,widget.widgetCreateObj.props,widget.layoutId)}
                     handleDelete={this.handleDelete.bind(this)}>
                     {element}
                 </Widget>
@@ -275,16 +275,27 @@ class Home extends Component{
                         widgets:_.reject(this.state.widgets,{layoutId:layoutId})});
     }
 
-    handleDialogOpen()
+    handleDialogOpen(currentWidgetProps,layoutId)
     {
-        this.setState({showConfigDialog:true});
+        
+        this.setState({showConfigDialog:true,selectedWidgetOption:{layoutId:layoutId,props:currentWidgetProps}});
     }
     handleDialoClose()
     {
         this.setState({showConfigDialog:false});
     }
 
+    handleOptionSave(layoutId,savedWidgetProps) //widget 配置项目修改保存
+    {
+        _.forEach(this.state.widget,function(item){
+            if(item.layoutId===layoutId)
+            {
+                item.widgetCreateObj.props=savedWidgetProps;
+            }
+        });
 
+        this.setState({widget:this.state.widget,showConfigDialog:false});
+    }
 
 
 
@@ -315,7 +326,10 @@ class Home extends Component{
                     />
 
 
-                    <WidgetConfigDialog open={this.state.showConfigDialog}  handleClose={this.handleDialoClose.bind(this)} />
+                    <WidgetConfigDialog open={this.state.showConfigDialog}  
+                                        handleClose={this.handleDialoClose.bind(this)}  
+                                        handleOptionSave={this.handleOptionSave.bind(this)}
+                                        widgetProps={this.state.selectedWidgetOption}/>
                 </div>
 
             )
