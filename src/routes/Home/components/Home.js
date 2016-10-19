@@ -13,6 +13,10 @@ import ModuleLoader from '../../../component/widget/ModuleLoader'
 import uuid from 'uuid'
 import GridEdit from '../../../common/GridEdit'
 import WidgetChoose from '../../../common/WidgetChoose'
+
+import WidgetConfigDialog from '../../../common/WidgetConfigDialog'
+
+
 //const ResponsiveReactGridLayout = WidthProvider(Responsive);
 var ResponsiveReactGridLayout = require('react-grid-layout').Responsive;
 
@@ -31,6 +35,7 @@ class Home extends Component{
             canDelete:false,
             editComponentClicked:false,
             showWidgetChoose:false,
+            showConfigDialog:false,//是否打开widget 配置dialog
             widgets:[{
                         layoutId:"a",
                         widgetCreateObj:{
@@ -70,7 +75,8 @@ class Home extends Component{
                     {"i":"b","x":3,"y":0,"w":4,"h":1,"isDraggable":false,"isResizable":false},
                     {"i":"c","x":6,"y":0,"w":4,"h":1,"isDraggable":false,"isResizable":false},
                     {"i":"d","x":9,"y":0,"w":4,"h":1,"isDraggable":false,"isResizable":false}],
-            widgetItems:[] //widget lists 的数据源
+            widgetItems:[], //widget lists 的数据源
+            currentWidgetProps:{}
 
         }
     }
@@ -250,7 +256,9 @@ class Home extends Component{
         let element = React.createElement(ModuleLoader(widget.widgetCreateObj.type),{data:widget.widgetCreateObj.props});
         return (
             <div key={widget.layoutId}>
-                <Widget  edit={this.state.edit} canDelete={this.state.canDelete} layoutId={widget.layoutId} handleDelete={this.handleDelete.bind(this)}>
+                <Widget  edit={this.state.edit} canDelete={this.state.canDelete} layoutId={widget.layoutId} 
+                    handleDialogOpen={this.handleDialogOpen.bind(this)}
+                    handleDelete={this.handleDelete.bind(this)}>
                     {element}
                 </Widget>
             </div>
@@ -266,6 +274,22 @@ class Home extends Component{
         this.setState({layout: _.reject(this.state.layout, {i: layoutId}),
                         widgets:_.reject(this.state.widgets,{layoutId:layoutId})});
     }
+
+    handleDialogOpen()
+    {
+        this.setState({showConfigDialog:true});
+    }
+    handleDialoClose()
+    {
+        this.setState({showConfigDialog:false});
+    }
+
+
+
+
+
+
+
     render(){
 
             return (
@@ -289,6 +313,9 @@ class Home extends Component{
 
                                   
                     />
+
+
+                    <WidgetConfigDialog open={this.state.showConfigDialog}  handleClose={this.handleDialoClose.bind(this)} />
                 </div>
 
             )

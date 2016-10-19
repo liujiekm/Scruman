@@ -102,10 +102,12 @@ body{
     display: inline-block;
     position: absolute;
     height: 100%;
+    
     /*box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;*/
 }
 .edit
 {
+    cursor: move !important;
     background: rgba(255,255,255,.5);
     z-index: 6;
 }
@@ -244,6 +246,23 @@ body{
     opacity: 1;
     transition: opacity 1s ease;
 }
+
+
+
+.widget-config-menu
+{
+    position: absolute;
+    right: 40px;
+    top: 0;
+    margin: 2px;
+    z-index: 5;
+    text-align: right;
+    float: right;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+
 
 
 .widget-edit-menu-button-container:first-child {
@@ -693,7 +712,7 @@ button, button.ui-state-default, button.ui-button {
     color: white;
     border-color: #154A6A;
     background: url('../img/30blue.png') repeat;
-    cursor: 'pointer';
+    
     
   
     box-shadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px'
