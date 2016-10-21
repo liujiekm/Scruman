@@ -277,24 +277,27 @@ class Home extends Component{
 
     handleDialogOpen(currentWidgetProps,layoutId)
     {
-        
         this.setState({showConfigDialog:true,selectedWidgetOption:{layoutId:layoutId,props:currentWidgetProps}});
     }
-    handleDialoClose()
-    {
-        this.setState({showConfigDialog:false});
-    }
 
-    handleOptionSave(layoutId,savedWidgetProps) //widget 配置项目修改保存
-    {
-        _.forEach(this.state.widget,function(item){
-            if(item.layoutId===layoutId)
-            {
-                item.widgetCreateObj.props=savedWidgetProps;
-            }
-        });
 
-        this.setState({widget:this.state.widget,showConfigDialog:false});
+    handleOptionSave(layoutId,savedWidgetProps,ifSave) //widget 配置项目修改保存 ifSave 判断是否需要保存
+    {
+        if(ifSave)
+        {
+            _.forEach(this.state.widgets,function(item){
+                
+                if(item.layoutId===layoutId)
+                {
+                    //item.widgetCreateObj.props=savedWidgetProps;
+                    _.merge(item.widgetCreateObj.props,savedWidgetProps);
+                }
+            });
+            this.setState({widget:this.state.widget,showConfigDialog:false});
+        }
+        else{
+            this.setState({showConfigDialog:false});
+        }
     }
 
 
@@ -327,7 +330,7 @@ class Home extends Component{
 
 
                     <WidgetConfigDialog open={this.state.showConfigDialog}  
-                                        handleClose={this.handleDialoClose.bind(this)}  
+                                        
                                         handleOptionSave={this.handleOptionSave.bind(this)}
                                         widgetProps={this.state.selectedWidgetOption}/>
                 </div>

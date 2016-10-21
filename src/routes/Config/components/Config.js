@@ -31,6 +31,7 @@ class Config extends Component{
                             type:'MaterialText',
                             props:{
                                     
+                                    data:{key:'DemoInput',value:''}
                                   }
                         }
                     }

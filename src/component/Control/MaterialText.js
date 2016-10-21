@@ -15,14 +15,17 @@ class MaterialText extends Component {
 
   handleChange(event){
     this.props.data.handleTextChange({key:this.props.data.key,value:event.target.value})
+    this.setState({
+        value: event.target.value
+    });
 
   };
 
   componentWillReceiveProps(nextProps)
   {
         this.setState({
-      value: nextProps.value
-    });
+          value: nextProps.value
+        });
   }
   render() {
     return (

@@ -67,26 +67,26 @@ class ListExampleSelectable extends Component {
 
                 <ListItem
                     value={'Home'}
-                    primaryText="Brendan Lim"
+                    primaryText="Widget配置页面"
                     leftIcon={<RemoveRedEye />}
                     style={itemStyle}
                     
                 />
                 <ListItem
                     value={'Config'}
-                    primaryText="Kerem Suer"
+                    primaryText="自定义表单页面"
                     leftIcon={<PersonAdd />}
                     style={itemStyle}
                 />
                 <ListItem
                     value={4}
-                    primaryText="Eric Hoffman"
+                    primaryText="Nothing"
                     leftIcon={<ContentLink />}
                     style={itemStyle}
                 />
                 <ListItem
                     value={5}
-                    primaryText="Raquel Parrado"
+                    primaryText="Nothing"
                     leftIcon={<ContentCopy />}
                     style={itemStyle}
                 />

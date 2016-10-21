@@ -19,12 +19,12 @@ const style={
  class SingleIndicate extends Component{
      constructor(props){
          super(props);
-         this.state={
-             bgColor:props.bgColor,
-             iconClassName:props.iconClassName,
-             indicate:props.indicate,
-             desc:props.desc
-         }
+        //  this.state={
+        //      bgColor:props.bgColor,
+        //      iconClassName:props.iconClassName,
+        //      indicate:props.indicate,
+        //      desc:props.desc
+        //  }
 
      }
 
@@ -35,12 +35,12 @@ const style={
 
      componentWillReceiveProps(nextProps)
      {
-         this.setState({
-             bgColor:nextProps.bgColor,
-             iconClassName:nextProps.iconClassName,
-             indicate:nextProps.indicate,
-             desc:nextProps.desc
-         });
+        //  this.setState({
+        //      bgColor:nextProps.bgColor,
+        //      iconClassName:nextProps.iconClassName,
+        //      indicate:nextProps.indicate,
+        //      desc:nextProps.desc
+        //  });
      }
 
     render(){
