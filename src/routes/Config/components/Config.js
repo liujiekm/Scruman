@@ -30,13 +30,11 @@ class Config extends Component{
                         createOption:{
                             type:'MaterialText',
                             props:{
-                                    
                                     data:{key:'DemoInput',value:''}
                                   }
                         }
                     }
             ],
-
             selectControls:[]
           }
         }
@@ -52,7 +50,6 @@ class Config extends Component{
                     })  
                 });
             }else{
-                
                 this.setState({editComponentClicked:false,edit:false,canDelete:false});
             }
         }

@@ -8,15 +8,11 @@ import path from 'path'
 //import {Responsive, WidthProvider} from 'react-grid-layout';
 import Widget from '../../../component/widget/Widget'
 import SingleIndicate from '../../../component/widget/SingleIndicate'
-
 import ModuleLoader from '../../../component/widget/ModuleLoader'
 import uuid from 'uuid'
 import GridEdit from '../../../common/GridEdit'
 import WidgetChoose from '../../../common/WidgetChoose'
-
 import WidgetConfigDialog from '../../../common/WidgetConfigDialog'
-
-
 //const ResponsiveReactGridLayout = WidthProvider(Responsive);
 var ResponsiveReactGridLayout = require('react-grid-layout').Responsive;
 
@@ -24,8 +20,6 @@ var ResponsiveReactGridLayout = require('react-grid-layout').Responsive;
 
 
 class Home extends Component{
-    
-
     constructor(props)
     {
         super(props)
@@ -37,6 +31,8 @@ class Home extends Component{
             showWidgetChoose:false,
             showConfigDialog:false,//是否打开widget 配置dialog
             widgets:[{
+
+
                         layoutId:"a",
                         widgetCreateObj:{
                             type:'SingleIndicate',
@@ -70,7 +66,12 @@ class Home extends Component{
                         }
                     }],
 
-
+            widgetValidation:[
+                {type:'SingleIndicate',editable:{'indicate':{type:'text',data:''},'desc':{type:'text',data:''}}},
+                {type:'SingleIndicate',editable:{'indicate':{type:'text',data:''},'desc':{type:'text',data:''}}},
+            ],//widget 属性验证，包含属性用什么方式展示（配置修改的时候）
+            
+            
             layout:[{"i":"a","x":0,"y":0,"w":4,"h":1,"isDraggable":false,"isResizable":false},
                     {"i":"b","x":3,"y":0,"w":4,"h":1,"isDraggable":false,"isResizable":false},
                     {"i":"c","x":6,"y":0,"w":4,"h":1,"isDraggable":false,"isResizable":false},
