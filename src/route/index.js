@@ -8,6 +8,7 @@ import App from '../common/App'
 
 import Home from '../routes/Home/components/Home'
 import Config from '../routes/Config/components/Config'
+import Chase from '../routes/Chase/components/Chase'
 
 
 
@@ -54,6 +55,7 @@ const Routes = ({ history }) =>
         <IndexRoute {...component(Home)}/>
         <Route path="Home"    {...component(Home)} />
         <Route path="Config"  {...component(Config)}/>
+        <Route path="Chase"  {...component(Chase)}/>
     </Route>
     
   </Router>;

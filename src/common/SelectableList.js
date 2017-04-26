@@ -79,8 +79,8 @@ class ListExampleSelectable extends Component {
                     style={itemStyle}
                 />
                 <ListItem
-                    value={4}
-                    primaryText="Nothing"
+                    value={'Chase'}
+                    primaryText="Chase"
                     leftIcon={<ContentLink />}
                     style={itemStyle}
                 />
