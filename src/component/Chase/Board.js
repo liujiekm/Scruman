@@ -2,8 +2,15 @@ import React,{Component,PropTypes} from 'react'
 import Knight from './Knight'
 import Square from './Square'
 
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
-export default class Board extends Component{
+
+class Board extends Component{
+
+
+
+
 
     renderSquare(i)
     {
@@ -17,7 +24,7 @@ export default class Board extends Component{
         return (
 
             <div key = {i} style={{width:'12.5%',height:'12.5%'}}>
-                <Square black={black}>
+                <Square black={black} x={x} y={y} handleSquareDrop={this.props.handleSquareDrop}>
                     {piece}
                 </Square>
             </div>
@@ -49,3 +56,5 @@ Board.propTypes={
 
     knightPosition:PropTypes.arrayOf(PropTypes.number.isRequired).isRequired
 }
+
+export default DragDropContext(HTML5Backend)(Board);

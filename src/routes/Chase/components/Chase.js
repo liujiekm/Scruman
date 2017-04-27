@@ -15,10 +15,27 @@ function observe(receive)
 
 export default class Chase extends Component{
 
+    constructor(props)
+    {
+        super(props)
+        this.state={position:[0,0]}
+    }
+
+    componentDidMount()
+    {
+        // setInterval(()=>{
+        //     this.setState({position:[Math.floor(Math.random()*8),Math.floor(Math.random()*8)]})
+        // },500)
+    }
+    handleSquareDrop(position)
+    {
+        this.setState({position:position});
+    }
+
     render(){
         return(
 
-            <Board knightPosition={[1,1]}/>
+            <Board knightPosition={this.state.position} handleSquareDrop={this.handleSquareDrop.bind(this)}/>
 
         )
     }
