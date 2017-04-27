@@ -3,7 +3,7 @@ import React,{Component,PropTypes} from 'react'
 import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
 
-
+//drop specification
 const squareTarget={
     drop(props,monitor,component)
     {
