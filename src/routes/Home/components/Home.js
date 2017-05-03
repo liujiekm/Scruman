@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { render } from 'react-dom'
 import PureRenderMixin  from 'react/lib/ReactComponentWithPureRenderMixin'
 import ReactGridLayout from 'react-grid-layout'
-import ReactDOMServer from 'react/lib/ReactDOMServer'
+//import ReactDOMServer from 'react/lib/ReactDOMServer'
 import _ from 'lodash'
 import path from 'path'
 //import {Responsive, WidthProvider} from 'react-grid-layout';
