@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-import {List, ListItem, MakeSelectable} from 'material-ui/List';
+import {List, ListItem, makeSelectable} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
 import ContentCopy from 'material-ui/svg-icons/content/content-copy';
@@ -17,7 +17,7 @@ const itemStyle ={'color':'rgb(117, 117, 117)'}
 
 
 
-let SelectableList = MakeSelectable(List);
+let SelectableList = makeSelectable(List);
 
 function wrapState(ComposedComponent) {
   return class SelectableList extends Component {
@@ -85,8 +85,8 @@ class ListExampleSelectable extends Component {
                     style={itemStyle}
                 />
                 <ListItem
-                    value={5}
-                    primaryText="Nothing"
+                    value={'FormBuilder'}
+                    primaryText="Form Designer"
                     leftIcon={<ContentCopy />}
                     style={itemStyle}
                 />

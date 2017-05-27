@@ -11,7 +11,7 @@ import Download from 'material-ui/svg-icons/file/file-download';
 import Delete from 'material-ui/svg-icons/action/delete';
 import FontIcon from 'material-ui/FontIcon';
 
-import {List, ListItem, MakeSelectable} from 'material-ui/List';
+import {List, ListItem, makeSelectable} from 'material-ui/List';
 
 const style = {
   paper: {
@@ -75,4 +75,4 @@ LeftNav.contextTypes = {
 }
 
 
-export default MakeSelectable(LeftNav);
+export default makeSelectable(LeftNav);
