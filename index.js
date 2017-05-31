@@ -8,7 +8,7 @@ import Routes from './src/route/index'
 import './src/content/css/main.css'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
-
+import "@blueprintjs/core/dist/blueprint.css";
 injectTapEventPlugin();
 
 // const rootRoute = {

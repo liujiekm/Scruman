@@ -23,7 +23,7 @@ class Config extends Component{
             canDelete:false,
             editComponentClicked:false,
             showWidgetChoose:false,
-            layouts: {lg: [{"i":"a","x":18,"y":0,"w":4,"h":1,"isDraggable":false,"isResizable":false}
+            layouts: {lg: [{"i":"a","x":18,"y":0,"w":4,"h":1,"isDraggable":true,"isResizable":true}
                    ]},
             controls:[{
                         layoutId:"a",
@@ -238,7 +238,8 @@ class Config extends Component{
 Config.defaultProps = {
     className: "layout",
     rowHeight: 30,
-    cols: {lg: 36, md: 10, sm: 6, xs: 4, xxs: 2}
+    cols: {lg: 36, md: 10, sm: 6, xs: 4, xxs: 2},
+    verticalCompact:false
     
 }
 Config.propTypes = {
