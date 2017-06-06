@@ -55,15 +55,7 @@ class FieldChoose extends Component{
                                             <span></span>
                                         </span>
                                     </div>
-                                    <div className="icon-input-container right widget-searchterm-container bowtie-icon bowtie-search">
-                                        <input className="widget-searchterm-input input-icon-right" type="text" maxLength="60" placeholder="搜索 widgets" />
-                                    </div>
-                                    <div className="status-indicator center" style={{"display": "none"}}>
-                                        <div className="status">
-                                            <table><tbody><tr><td><span className="icon big-status-progress"></span><span id="indicator_message">Loading...</span></td></tr></tbody></table>
-                                        </div>
-                                    </div>
-                                    <div className="widget-list-noresults" style={{"display": "none"}}>No results found</div>
+
 
                                     <div className="widget-list-container">
 
