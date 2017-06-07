@@ -4,13 +4,12 @@ import PureRenderMixin  from 'react/lib/ReactComponentWithPureRenderMixin'
 import _ from 'lodash'
 import uuid from 'uuid'
 
-
+//字段值对象
+import Field from '../../../content/data/field'
 import Widget from '../../../component/widget/Widget'
 import GridEdit from '../../../common/GridEdit'
-
 import FieldChoose from '../../../common/FieldChoose'
 import ModuleLoader from '../../../component/widget/ModuleLoader'
-
 import { Classes, ITreeNode, Tooltip, Tree, Switch, Tab2, Tabs2 } from "@blueprintjs/core"
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -22,6 +21,7 @@ class FormBuilder extends Component{
     constructor(props)
     {
         super(props);
+        
 
         this.state={
             
@@ -45,6 +45,7 @@ class FormBuilder extends Component{
             ],
             selectControls:[],
             //Tabs
+            
             animate: true,
             navbarTabId: "Fields",
             //Tree
@@ -76,6 +77,14 @@ class FormBuilder extends Component{
                 },
             ]
         }
+    }
+
+
+    produceFields()
+    {
+        let field = new Field();
+        let fields = [];
+        fields.push(field);
     }
 
     handleCheckClick()
