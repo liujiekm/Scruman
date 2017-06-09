@@ -4,7 +4,10 @@ import { render } from 'react-dom'
 import { Router, browserHistory } from 'react-router'
 import mui from 'material-ui';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import Routes from './src/route/index'
+ import Routes from './src/route/index'
+
+import routeConfig from './src/content/data/routeConfig'
+
 import './src/content/css/main.css'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
@@ -28,3 +31,6 @@ injectTapEventPlugin();
 //<Router history={browserHistory} routes={rootRoute} />
 render(<Routes history={browserHistory} />,
 document.getElementById('root'));
+
+// render(<Router history={browserHistory} routes={routeConfig} />,
+// document.getElementById('root'));

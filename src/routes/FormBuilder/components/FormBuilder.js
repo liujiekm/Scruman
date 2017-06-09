@@ -10,7 +10,8 @@ import Widget from '../../../component/widget/Widget'
 import GridEdit from '../../../common/GridEdit'
 import FieldChoose from '../../../common/FieldChoose'
 import ModuleLoader from '../../../component/widget/ModuleLoader'
-import { Classes, ITreeNode, Tooltip, Tree, Switch, Tab2, Tabs2 } from "@blueprintjs/core"
+import { Classes, ITreeNode, Tooltip, Tree, Switch, Tab2, Tabs2,Dialog } from "@blueprintjs/core"
+import AddPageDialog from './AddPageDialog'
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -75,7 +76,36 @@ class FormBuilder extends Component{
                         },
                     ],
                 },
-            ]
+            ],
+            //dialog
+            dialogOpen:false,
+            pages: [
+                {
+                    iconName: "folder-close",
+                    isExpanded: true,
+                    label: <Tooltip content="I'm a folder <3">Fields</Tooltip>,
+                    childNodes: [
+                        { iconName: "document", label: "Item 0"},
+                        { iconName: "pt-icon-tag", label: "Item 1" },
+                        {
+                            hasCaret: true,
+                            iconName: "pt-icon-folder-close",
+                            label: <Tooltip content="foo">Folder 2</Tooltip>,
+                            childNodes: [
+                                { label: "No-Icon Item" },
+                                { iconName: "pt-icon-tag", label: "Item 1" },
+                                {
+                                    hasCaret: true, iconName: "pt-icon-folder-close", label: "Folder 3",
+                                    childNodes:  [
+                                        { iconName: "document", label: "Item 0" },
+                                        { iconName: "pt-icon-tag", label: "Item 1" },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
         }
     }
 
@@ -274,11 +304,48 @@ class FormBuilder extends Component{
         this.setState({ navbarTabId });
     }
 
+
+
+    handleAddDialogClose(){
+        this.setState({dialogOpen:false});
+    }
+
+    handleAddDialogOpen(){
+        this.setState({dialogOpen:true});
+    }
     render(){
 
         return (
             <div style={{'width':'100%','height':'100%'}}>
-                <form>
+                
+
+                <AddPageDialog isOpen={this.state.dialogOpen} handleAddDialogClose={this.handleAddDialogClose.bind(this)} />
+
+                <div className='pages-zone'>
+                        <div className="pt-button-group .modifier">
+                            <a className="pt-button pt-icon-add" tabindex="0" role="button" onClick={this.handleAddDialogOpen.bind(this)}>Add Page</a>
+                            <a className="pt-button pt-icon-confirm" tabindex="0" role="button">Save</a>
+                            <a className="pt-button" tabindex="0" role="button">
+                                Options <span className="pt-icon-standard pt-icon-caret-down pt-align-right"></span>
+                            </a>
+                        </div>
+                        <Tree
+                            contents={this.state.pages}
+                            onNodeClick={this.handleNodeClick.bind(this)}
+                            onNodeCollapse={this.handleNodeCollapse.bind(this)}
+                            onNodeExpand={this.handleNodeExpand.bind(this)}
+                            className={Classes.ELEVATION_0}
+                        />
+                    
+                    </div>
+
+
+
+
+
+
+
+                <form className='form-designer'>
                     <ResponsiveReactGridLayout
                             {...this.props}
                             layouts={this.state.layouts}
