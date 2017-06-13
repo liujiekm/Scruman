@@ -5,13 +5,16 @@ import MaterialText from '../Control/MaterialText'
 import EchartWidget from './EchartWidget'
 import EchartWidgetNormal from './EchartWidgetNormal'
 
+import BlueprintEditableText from '../Control/BlueprintEditableText'
+
 const modules = {
   SingleIndicate,
   MaterialTable,
   MaterialSelect,
   MaterialText,
   EchartWidget,
-  EchartWidgetNormal
+  EchartWidgetNormal,
+  BlueprintEditableText
 
   
 };

@@ -12,6 +12,8 @@ import Chase from '../routes/Chase/components/Chase'
 
 import FormBuilder from '../routes/FormBuilder/components/FormBuilder'
 
+import ActualPage from '../routes/ActualPage/components/ActualPage'
+
 
 
 
@@ -61,6 +63,7 @@ const Routes = ({ history }) =>
         <Route path="Config"  {...component(Config)}/>
         <Route path="Chase"  {...component(Chase)}/>
         <Route path="FormBuilder"  {...component(FormBuilder)}/>
+        <Route path="ActualPage"  {...component(ActualPage)}/>
     </Route>
     
   </Router>;

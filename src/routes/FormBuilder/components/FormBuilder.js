@@ -12,7 +12,8 @@ import FieldChoose from '../../../common/FieldChoose'
 import ModuleLoader from '../../../component/widget/ModuleLoader'
 import { Classes, ITreeNode, Tooltip, Tree, Switch, Tab2, Tabs2,Dialog } from "@blueprintjs/core"
 import AddPageDialog from './AddPageDialog'
-import {Responsive, WidthProvider} from 'react-grid-layout';
+import ReactGridLayout from 'react-grid-layout'
+import {Responsive, WidthProvider } from 'react-grid-layout';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 
@@ -24,105 +25,119 @@ class FormBuilder extends Component{
         super(props);
         
 
-        this.state={
-            
-            currentBreakpoint: 'lg',
-            mounted: false,
-            edit:false,
-            canDelete:false,
-            editComponentClicked:false,
-            showWidgetChoose:false,
-            layouts: {lg: [{"i":"a","x":18,"y":0,"w":4,"h":1,"isDraggable":true,"isResizable":true}
-                   ]},
-            controls:[{
-                        layoutId:"a",
-                        createOption:{
-                            type:'MaterialText',
-                            props:{
-                                    data:{key:'DemoInput',value:''}
-                                  }
+        //上下文对象传递给control中的回调函数
+        var context = this;
+
+        //从存储中加载当前state
+        var currentState = localStorage.getItem('context');
+        if(currentState)
+        {
+            this.state=JSON.parse(currentState);
+        }
+        else
+        {
+            this.state={
+                
+
+                mounted: false,
+                edit:true,
+                canDelete:false,
+                editComponentClicked:false,
+                showWidgetChoose:false,
+                layouts:  [{"i":"a","x":18,"y":0,"w":2,"h":1,"isDraggable":true,"isResizable":true}],
+                controls:[{
+                            layoutId:"a",
+                            createOption:{
+                                fieldId:'',
+                                type:'BlueprintEditableText',
+                                property:{
+                                        data:{key:'DemoInput',value:'',handleTextChange:function(value){}}
+                                    }
+                            }
                         }
-                    }
-            ],
-            selectControls:[],
-            //Tabs
-            
-            animate: true,
-            navbarTabId: "Fields",
-            //Tree
-            nodes: [
-                {
-                    iconName: "folder-close",
-                    isExpanded: true,
-                    label: <Tooltip content="I'm a folder <3">Fields</Tooltip>,
-                    childNodes: [
-                        { iconName: "document", label: "Item 0"},
-                        { iconName: "pt-icon-tag", label: "Item 1" },
+                ],
+                selectControls:[],
+                //Tabs
+                
+                animate: true,
+                navbarTabId: "Fields",
+                //Field Tree 代表创建的页面中的字段
+                fields: [
+                    {
+                        iconName: "folder-open",
+                        isExpanded: true,
+                        childNodes: [
+                            { iconName: "label", label: "Item 0"},
+                            { iconName: "label", label: "Item 1" }
+
+                        ],
+                    },
+                ],
+                //dialog
+                dialogOpen:false,
+                //Page Tree 代表创建的页面清单 需要保存
+                pages: [
+                    {
+                        id:'root',
+                        iconName: "folder-open",
+                        isExpanded: true,
+                        childNodes: [
+                            { iconName: "document", label: "Demo1",id:'Demo1'},
+                        ],
+                    },
+                ],
+                //所有页面的layout的配置项 需要保存
+                pageLayout:[
                         {
-                            hasCaret: true,
-                            iconName: "pt-icon-folder-close",
-                            label: <Tooltip content="foo">Folder 2</Tooltip>,
-                            childNodes: [
-                                { label: "No-Icon Item" },
-                                { iconName: "pt-icon-tag", label: "Item 1" },
+                            pageId:'Demo1',//==》pages-->id
+                            layout:[{"i":"a","x":18,"y":0,"w":2,"h":1,"isDraggable":true,"isResizable":true}],//layouts
+                            //页面内部的控件集合
+                            controls:[
                                 {
-                                    hasCaret: true, iconName: "pt-icon-folder-close", label: "Folder 3",
-                                    childNodes:  [
-                                        { iconName: "document", label: "Item 0" },
-                                        { iconName: "pt-icon-tag", label: "Item 1" },
-                                    ],
-                                },
+                                    layoutId:"a",
+                                    createOption:{
+                                        fieldId:'', //关联到Fields中的Field
+                                        type:'BlueprintEditableText',
+                                        property:{
+                                                data:{key:'DemoInput',value:''}
+                                            }
+                                    }
+                                }
                             ],
-                        },
+                            fields:[]
+                        }
                     ],
-                },
-            ],
-            //dialog
-            dialogOpen:false,
-            pages: [
-                {
-                    iconName: "folder-close",
-                    isExpanded: true,
-                    label: <Tooltip content="I'm a folder <3">Fields</Tooltip>,
-                    childNodes: [
-                        { iconName: "document", label: "Item 0"},
-                        { iconName: "pt-icon-tag", label: "Item 1" },
-                        {
-                            hasCaret: true,
-                            iconName: "pt-icon-folder-close",
-                            label: <Tooltip content="foo">Folder 2</Tooltip>,
-                            childNodes: [
-                                { label: "No-Icon Item" },
-                                { iconName: "pt-icon-tag", label: "Item 1" },
-                                {
-                                    hasCaret: true, iconName: "pt-icon-folder-close", label: "Folder 3",
-                                    childNodes:  [
-                                        { iconName: "document", label: "Item 0" },
-                                        { iconName: "pt-icon-tag", label: "Item 1" },
-                                    ],
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ],
+                //新增加页面的临时变量
+                addedPageName:''
+
+            }
         }
     }
 
 
     produceFields()
     {
-        let field = new Field();
-        let fields = [];
-        fields.push(field);
+        // 界面域值的对象模型
+        var field ={
+            name:'',
+            id:'',
+            control:'',
+            defaultValue:'',
+            dataSource:'',
+        }
     }
+
+
+
+
+
 
     handleCheckClick()
     {
         if(!this.state.editComponentClicked)
         {
             this.setState({editComponentClicked:true,edit:true,canDelete:true,
-                layout:_.each(this.state.layout,function(layout) {
+                layouts:_.each(this.state.layouts,function(layout) {
                     layout.isDraggable=true;
                     layout.static=false;
                 })  
@@ -158,7 +173,7 @@ class FormBuilder extends Component{
         let selectedItem = _.find(this.state.selectControls,{id:itemId});
         let layoutId = uuid.v1();
         this.setState({
-            layouts:{lg:this.state.layouts.lg.concat({
+            layouts:this.state.layouts.concat({
                 i: layoutId,
                 x: 0,
                 y: Infinity, // puts it at the bottom
@@ -166,7 +181,7 @@ class FormBuilder extends Component{
                 h: 1,
                 "isDraggable":true,
                 "isResizable":true
-            })},
+            }),
             controls:this.state.controls.concat({
                 layoutId:layoutId,
                 createOption:selectedItem.widgetCreateObj
@@ -178,11 +193,12 @@ class FormBuilder extends Component{
     handleDelete(layoutId)
     {
 
-        this.setState({layouts:{ lg:_.reject(this.state.layouts.lg, {i: layoutId})},
+        this.setState({layouts:_.reject(this.state.layouts, {i: layoutId}),
                         controls:_.reject(this.state.controls,{layoutId:layoutId})});
     }
     generateDOM(control) {
-        let element = React.createElement(ModuleLoader(control.createOption.type),control.createOption.props);
+        let element = React.createElement(ModuleLoader(control.createOption.type),control.createOption.property);
+
         return (
             <div key={control.layoutId}>
                 <Widget  edit={this.state.edit} canDelete={this.state.canDelete} layoutId={control.layoutId} handleDelete={this.handleDelete.bind(this)}>
@@ -193,38 +209,47 @@ class FormBuilder extends Component{
     }
 
     onBreakpointChange(breakpoint){
-        this.setState({
-        currentBreakpoint: breakpoint
-        });
-    };
 
-    onLayoutChange(layout, layouts){
-        
-    };
-
-    onNewLayout(){
-        this.setState({
-        layouts: {lg: generateLayout()}
-        });
     };
 
 
-    forEachNode(nodes, callback) {
+
+
+
+    //保存指定page的layout
+    onLayoutChange(layout){
+        //获取选中的page
+        let selectedPage = this.findPage(this.state.pages);
+        if(selectedPage)
+        {
+            let pageLayout = _.find(this.state.pageLayout,{pageId:selectedPage});
+            pageLayout.layout=layout;
+        }
+        this.setState(this.state);
+
+    };
+
+    findPage(nodes) {
         if (nodes == null) {
             return;
         }
-
         for (const node of nodes) {
-            callback(node);
-            this.forEachNode(node.childNodes, callback);
+            if (node.isSelected) {
+                return node.pageId;
+            }
+            this.findPage(node.childNodes);
         }
     }
+
+
+
+
 
     handleNodeClick(nodeData, _nodePath, e)
     {
         const originallySelected = nodeData.isSelected;
         if (!e.shiftKey) {
-            this.forEachNode(this.state.nodes, (n) => n.isSelected = false);
+            this.forEachNode(this.state.fields, (n) => n.isSelected = false);
         }
         nodeData.isSelected = originallySelected == null ? true : !originallySelected;
         this.setState(this.state);
@@ -233,70 +258,26 @@ class FormBuilder extends Component{
     handleNodeCollapse(nodeData)
     {
         nodeData.isExpanded = false;
+        nodeData.iconName='folder-close'
         this.setState(this.state);
     }
 
     handleNodeExpand (nodeData)
     {
         nodeData.isExpanded = true;
+        nodeData.iconName='folder-open'
         this.setState(this.state);
     }
-
+    handleNodeContextMenu(nodeData)
+    {
+        
+    }
 
 
 
     componentWillMount(){
 
-        //加载可以添加到grid layout中的widget 组件清单信息
-        let fakeSelectControls = [
-                                {
-                                    id:'1',
-                                    imgUrl:'./src/content/img/assignedToMe.png',
-                                    widgetName:'文本框',
-                                    widgetDesc:'输入文本内容',
-                                    widgetCreateObj:
-                                        {
-                                            type:'MaterialText',
-                                            props:
-                                                {
-                                                    
-                                                    
-                                                }
-                                        }
-                                },
-                                {
-                                    id:'2',
-                                    imgUrl:'./src/content/img/assignedToMe.png',
-                                    widgetName:'下拉列表',
-                                    widgetDesc:'选择内容',
-                                    widgetCreateObj:
-                                        {
-                                            type:'MaterialSelect',
-                                            props:
-                                                {
-                                                    
-                                                }
-                                        }
-                                },
-                                {
-                                    id:'3',
-                                    imgUrl:'./src/content/img/assignedToMe.png',
-                                    widgetName:'表格',
-                                    widgetDesc:'呈现表格内容',
-                                    widgetCreateObj:
-                                        {
-                                            type:'MaterialTable',
-                                            props:
-                                                {
-                                                    
-                                                }
-                                        }
-                                },
-                            ]
-        this.setState({selectControls:fakeSelectControls});
 
-
-        
     }
 
     handleNavbarTabChange(navbarTabId) 
@@ -305,36 +286,109 @@ class FormBuilder extends Component{
     }
 
 
+    //页面树形结构添加页面条目
+    addPage(name)
+    {
+        let pages = this.state.pages;
+        pages[0].childNodes.push({iconName: "document", label: name,id:name});
+        
 
+
+        //pageLayout中新增layout默认记录  ==>需要修改为工厂方法
+        let pageLayout={
+            pageId:name,
+            layout:[{"i":"a","x":18,"y":0,"w":2,"h":1,"isDraggable":true,"isResizable":true}],
+            controls:[{
+                                layoutId:"a",
+                                createOption:{
+                                    fieldId:'', //关联到Fields中的Field
+                                    type:'MaterialSelect',
+                                    property:{
+                                            data:{key:'DemoInput',value:name}
+                                        }
+                                }
+                    }]
+        }
+        this.state.pageLayout.push(pageLayout);
+        
+        //this.state.layouts.lg=[]; //或者初始化直接设置为空
+    }
     handleAddDialogClose(){
-        this.setState({dialogOpen:false});
+        this.addPage(this.state.addedPageName);
+        this.state.dialogOpen=false;
+        this.setState(this.state);
+    }
+
+    //Page Tree 节点选中事件：
+    //加载pageLayout 中对于的Layout到当前Grid-Layout中
+    handlePageNodeClick(nodeData, _nodePath, e)
+    {
+        const originallySelected = nodeData.isSelected;
+        this.forEachNode(this.state.pages, (n) => n.isSelected = false);
+        // if (!e.shiftKey) {
+            
+        // }
+        nodeData.isSelected = originallySelected == null ? true : !originallySelected;
+        let pageId = nodeData.id;
+        //设置当前页面的Layout
+        let layout = _.result(_.find(this.state.pageLayout,{pageId:pageId}),'layout');
+        this.state.layouts=layout;
+        //加载当前页面的控件集合
+        let controls = _.result(_.find(this.state.pageLayout,{pageId:pageId}),'controls');
+        this.state.controls=controls;    
+
+        this.setState(this.state);
+    }
+
+    forEachNode(nodes, callback) {
+        if (nodes == null) {
+            return;
+        }
+        for (const node of nodes) {
+            callback(node);
+            this.forEachNode(node.childNodes, callback);
+        }
     }
 
     handleAddDialogOpen(){
         this.setState({dialogOpen:true});
     }
-    render(){
 
+
+    handlePageNameChange(value)
+    {
+        this.setState({addedPageName:value});
+    }
+
+    //保存所有配置
+    save()
+    {
+        localStorage.setItem('context',JSON.stringify(this.state));
+    }
+
+    render(){
+        
         return (
             <div style={{'width':'100%','height':'100%'}}>
                 
 
-                <AddPageDialog isOpen={this.state.dialogOpen} handleAddDialogClose={this.handleAddDialogClose.bind(this)} />
+                <AddPageDialog isOpen={this.state.dialogOpen} handleAddDialogClose={this.handleAddDialogClose.bind(this)} handlePageNameChange={this.handlePageNameChange.bind(this)} />
 
                 <div className='pages-zone'>
                         <div className="pt-button-group .modifier">
-                            <a className="pt-button pt-icon-add" tabindex="0" role="button" onClick={this.handleAddDialogOpen.bind(this)}>Add Page</a>
-                            <a className="pt-button pt-icon-confirm" tabindex="0" role="button">Save</a>
-                            <a className="pt-button" tabindex="0" role="button">
+                            <a className="pt-button pt-icon-add" tabIndex="0" role="button" onClick={this.handleAddDialogOpen.bind(this)}>Add Page</a>
+                            <a className="pt-button pt-icon-confirm" tabIndex="0" role="button" onClick={this.save.bind(this)}>Save</a>
+                            <a className="pt-button" tabIndex="0" role="button">
                                 Options <span className="pt-icon-standard pt-icon-caret-down pt-align-right"></span>
                             </a>
                         </div>
                         <Tree
                             contents={this.state.pages}
-                            onNodeClick={this.handleNodeClick.bind(this)}
+                            onNodeClick={this.handlePageNodeClick.bind(this)}
                             onNodeCollapse={this.handleNodeCollapse.bind(this)}
                             onNodeExpand={this.handleNodeExpand.bind(this)}
                             className={Classes.ELEVATION_0}
+                            onNodeContextMenu={this.handleNodeContextMenu.bind(this)}
                         />
                     
                     </div>
@@ -346,19 +400,22 @@ class FormBuilder extends Component{
 
 
                 <form className='form-designer'>
-                    <ResponsiveReactGridLayout
+                    <ReactGridLayout
                             {...this.props}
-                            layouts={this.state.layouts}
-                            onBreakpointChange={this.onBreakpointChange.bind(this)}
-                            onLayoutChange={this.onLayoutChange}
+                            layout={this.state.layouts}
+                            //onBreakpointChange={this.onBreakpointChange.bind(this)}
+                            onLayoutChange={this.onLayoutChange.bind(this)}
+                            isDraggable={this.state.edit}
                             // WidthProvider option
-                            measureBeforeMount={false}
+                            //measureBeforeMount={false}
                             // I like to have it animate on mount. If you don't, delete `useCSSTransforms` (it's default `true`)
                             // and set `measureBeforeMount={true}`.
-                            useCSSTransforms={this.state.mounted}>
+                            useCSSTransforms={this.state.mounted}
+                            >
                             {_.map(this.state.controls, this.generateDOM.bind(this))}
-                    </ResponsiveReactGridLayout>
+                    </ReactGridLayout>
                 </form>
+                
                 <GridEdit   clicked={this.state.editComponentClicked}
                                 handleCheckClick={this.handleCheckClick.bind(this)} 
                                 handleCloseClick={this.handleCloseClick.bind(this)}
@@ -381,7 +438,7 @@ class FormBuilder extends Component{
                             selectedTabId={this.state.navbarTabId}
                         >
                             <Tab2 id="Fields" title="Fields" panel={<Tree
-                                        contents={this.state.nodes}
+                                        contents={this.state.fields}
                                         onNodeClick={this.handleNodeClick.bind(this)}
                                         onNodeCollapse={this.handleNodeCollapse.bind(this)}
                                         onNodeExpand={this.handleNodeExpand.bind(this)}
@@ -407,7 +464,8 @@ class FormBuilder extends Component{
 FormBuilder.defaultProps = {
     className: "layout",
     rowHeight: 30,
-    cols: {lg: 36, md: 10, sm: 6, xs: 4, xxs: 2},
+    width:1200,
+    cols: 36,
     verticalCompact:false
     
 }

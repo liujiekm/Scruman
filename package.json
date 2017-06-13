@@ -39,7 +39,7 @@
     "webpack-hot-middleware": "2.10.0"
   },
   "dependencies": {
-    
+    "react-tools":"^0.13.3",
     "react-dnd":"^2.3.0",
     "react-dnd-html5-backend":"^2.3.0",
     "@blueprintjs/core":"^1.18.0",

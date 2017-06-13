@@ -1,11 +1,14 @@
 import React, { Component, PropTypes } from 'react'
-import { Button, Classes, Dialog, Tooltip } from "@blueprintjs/core";
+import { Button, Classes, Dialog, Tooltip,EditableText  } from "@blueprintjs/core";
 
 class AddPageDialog extends Component{
 
     constructor(props)
     {
         super(props);
+        this.state={
+            pageName:''
+        }
 
     }
 
@@ -13,6 +16,11 @@ class AddPageDialog extends Component{
         this.props.handleAddDialogClose();
     }
 
+    handleChange(e)
+    {
+        this.props.handlePageNameChange(e);
+        this.setState({pageName:e});
+    }
     render(){
 
         return (
@@ -20,18 +28,17 @@ class AddPageDialog extends Component{
                     
                     iconName="inbox"
                     onClose={this.handleClose.bind(this)}
-                    title="Dialog header"
+                    title="Add Page"
                     isOpen={this.props.isOpen}
                 >
                     <div className={Classes.DIALOG_BODY}>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                        ut labore et dolore magna alqua.
+                        <EditableText  value={this.state.pageName} onChange={this.handleChange.bind(this)}/>
                     </div>
                     <div className={Classes.DIALOG_FOOTER}>
                         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-                            <Button>Secondary</Button>
+                            <Button>取消</Button>
                             <Tooltip content="This button is hooked up to close the dialog." inline>
-                                <Button className="pt-intent-primary" onClick={this.handleClose.bind(this)}>Primary</Button>
+                                <Button className="pt-intent-primary" onClick={this.handleClose.bind(this)}>确定</Button>
                             </Tooltip>
                         </div>
                     </div>

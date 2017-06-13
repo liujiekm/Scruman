@@ -25,10 +25,10 @@ module.exports = {
         shared:['react','react-router','react-grid-layout','material-ui']
     },
     output: {
-        path:__dirname+'/build',
+        path:__dirname+'/build/',
         filename: '[name].js',
         chunkFilename: '[name].chunk.js',
-        publicPath:'http://localhost:8000/build'
+        publicPath:'http://localhost:8000/build/'
     },
     module: {
         loaders: [

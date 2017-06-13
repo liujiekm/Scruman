@@ -1,8 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import PureRenderMixin  from 'react/lib/ReactComponentWithPureRenderMixin'
 //import ReactGridLayout from 'react-grid-layout'
+
+import ReactDOMServer from 'react-dom/server'
 import _ from 'lodash'
 import Board from '../../../component/Chase/Board'
+import reactTools from 'react-tools'
 
 function observe(receive)
 {
@@ -26,6 +29,14 @@ export default class Chase extends Component{
         // setInterval(()=>{
         //     this.setState({position:[Math.floor(Math.random()*8),Math.floor(Math.random()*8)]})
         // },500)
+
+        //var boardString = ReactDOMServer.renderToStaticMarkup(<Board />);
+        //localStorage.setItem('board',boardString);
+        // var boardItem = localStorage.getItem('board');
+        // var obj = reactTools.transform(aboutComponent,{harmony:true,es6module:true});
+        // console.log(obj);
+
+
     }
     handleSquareDrop(position)
     {
@@ -33,6 +44,8 @@ export default class Chase extends Component{
     }
 
     render(){
+        
+
         return(
 
             <Board knightPosition={this.state.position} handleSquareDrop={this.handleSquareDrop.bind(this)}/>

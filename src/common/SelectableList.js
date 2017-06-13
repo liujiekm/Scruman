@@ -90,6 +90,12 @@ class ListExampleSelectable extends Component {
                     leftIcon={<ContentCopy />}
                     style={itemStyle}
                 />
+                <ListItem
+                    value={'ActualPage'}
+                    primaryText="Actual Page"
+                    leftIcon={<ContentCopy />}
+                    style={itemStyle}
+                />
             </SelectableList>
 
         );
