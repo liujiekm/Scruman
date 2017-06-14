@@ -37,8 +37,6 @@ class FormBuilder extends Component{
         else
         {
             this.state={
-                
-
                 mounted: false,
                 edit:true,
                 canDelete:false,
@@ -65,13 +63,18 @@ class FormBuilder extends Component{
                 fields: [
                     {
                         iconName: "folder-open",
+                        id:'root',
+                        key:'root',
                         isExpanded: true,
                         childNodes: [
-                            { iconName: "label", label: "Item 0"},
-                            { iconName: "label", label: "Item 1" }
+                            { iconName: "label", label: "Item 0",id:'field1',key:'field1'},
+                            { iconName: "label", label: "Item 1",id:'field2',key:'field2' }
 
                         ],
                     },
+                ],
+                fieldDefinitions:[
+                    {id:'',name:'',value:'',defaultValue:'',dataSource:function(){},validation:function(){}}
                 ],
                 //dialog
                 dialogOpen:false,
@@ -79,10 +82,11 @@ class FormBuilder extends Component{
                 pages: [
                     {
                         id:'root',
+                        key:'root',
                         iconName: "folder-open",
                         isExpanded: true,
                         childNodes: [
-                            { iconName: "document", label: "Demo1",id:'Demo1'},
+                            { iconName: "document", label: "Demo1",id:'Demo1',key:'Demo1'},
                         ],
                     },
                 ],
@@ -108,10 +112,20 @@ class FormBuilder extends Component{
                         }
                     ],
                 //新增加页面的临时变量
-                addedPageName:''
+                addedPageName:'',
+                //当前选中页面Id的临时变量
+                currentPage:''
 
             }
         }
+    }
+
+
+
+    componentDidMout()
+    {
+        //初始化fields 以及fieldDefinition
+        
     }
 
 
@@ -126,6 +140,7 @@ class FormBuilder extends Component{
             dataSource:'',
         }
     }
+
 
 
 
@@ -219,31 +234,23 @@ class FormBuilder extends Component{
     //保存指定page的layout
     onLayoutChange(layout){
         //获取选中的page
-        let selectedPage = this.findPage(this.state.pages);
-        if(selectedPage)
-        {
-            let pageLayout = _.find(this.state.pageLayout,{pageId:selectedPage});
-            pageLayout.layout=layout;
-        }
+        let pageLayout = _.find(this.state.pageLayout,{pageId:this.state.currentPage});
+        pageLayout.layout=layout;
         this.setState(this.state);
 
     };
 
-    findPage(nodes) {
-        if (nodes == null) {
-            return;
-        }
-        for (const node of nodes) {
-            if (node.isSelected) {
-                return node.pageId;
-            }
-            this.findPage(node.childNodes);
-        }
-    }
-
-
-
-
+    // findPage(nodes) {
+    //     if (nodes == null) {
+    //         return;
+    //     }
+    //     for (const node of nodes) {
+    //         if (node.isSelected) {
+    //             return node.pageId;
+    //         }
+    //         this.findPage(node.childNodes);
+    //     }
+    // }
 
     handleNodeClick(nodeData, _nodePath, e)
     {
@@ -268,6 +275,8 @@ class FormBuilder extends Component{
         nodeData.iconName='folder-open'
         this.setState(this.state);
     }
+
+
     handleNodeContextMenu(nodeData)
     {
         
@@ -336,7 +345,7 @@ class FormBuilder extends Component{
         //加载当前页面的控件集合
         let controls = _.result(_.find(this.state.pageLayout,{pageId:pageId}),'controls');
         this.state.controls=controls;    
-
+        this.state.currentPage= pageId;
         this.setState(this.state);
     }
 
@@ -367,6 +376,12 @@ class FormBuilder extends Component{
     }
 
     render(){
+
+
+        let currentLayout = _.result(_.find(this.state.pageLayout,{pageId:this.state.currentPage}),'layout');
+        let currentControls = _.result(_.find(this.state.pageLayout,{pageId:this.state.currentPage}),'controls');
+
+
         
         return (
             <div style={{'width':'100%','height':'100%'}}>
@@ -392,17 +407,10 @@ class FormBuilder extends Component{
                         />
                     
                     </div>
-
-
-
-
-
-
-
                 <form className='form-designer'>
                     <ReactGridLayout
                             {...this.props}
-                            layout={this.state.layouts}
+                            layout={currentLayout}
                             //onBreakpointChange={this.onBreakpointChange.bind(this)}
                             onLayoutChange={this.onLayoutChange.bind(this)}
                             isDraggable={this.state.edit}
@@ -412,7 +420,7 @@ class FormBuilder extends Component{
                             // and set `measureBeforeMount={true}`.
                             useCSSTransforms={this.state.mounted}
                             >
-                            {_.map(this.state.controls, this.generateDOM.bind(this))}
+                            {_.map(currentControls, this.generateDOM.bind(this))}
                     </ReactGridLayout>
                 </form>
                 
