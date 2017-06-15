@@ -8,10 +8,16 @@ import uuid from 'uuid'
 import Field from '../../../content/data/field'
 import Widget from '../../../component/widget/Widget'
 import GridEdit from '../../../common/GridEdit'
-import FieldChoose from '../../../common/FieldChoose'
+import FormDesignerConfig from '../../../common/FormDesignerConfig'
+
+import ControlList from './ControlList'
+
 import ModuleLoader from '../../../component/widget/ModuleLoader'
 import { Classes, ITreeNode, Tooltip, Tree, Switch, Tab2, Tabs2,Dialog } from "@blueprintjs/core"
 import AddPageDialog from './AddPageDialog'
+import AddFieldDialog from './AddFieldDialog'
+
+
 import ReactGridLayout from 'react-grid-layout'
 import {Responsive, WidthProvider } from 'react-grid-layout';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -54,9 +60,22 @@ class FormBuilder extends Component{
                             }
                         }
                 ],
+
+
+                //页面右侧的Config上的Add按钮是否可用变量
+                configAddButtonDisable:false,
+                //可选择加入页面的控件集合
                 selectControls:[],
                 //Tabs
                 
+                //页面右侧的Config上的Field临时选择变量
+                choosedField:{},
+
+
+                //页面右侧的Config上的Control临时选择变量
+                choosedControl:{},
+
+
                 animate: true,
                 navbarTabId: "Fields",
                 //Field Tree 代表创建的页面中的字段
@@ -73,10 +92,13 @@ class FormBuilder extends Component{
                         ],
                     },
                 ],
+                //字段编辑新增dialog是否弹出变量
+                fieldDialogOpen:false,
+                //界面的字段定义
                 fieldDefinitions:[
-                    {id:'',name:'',value:'',defaultValue:'',dataSource:function(){},validation:function(){}}
+                    {id:'',name:'',value:'', type:''}
                 ],
-                //dialog
+                //页面新增dialog是否弹出变量
                 dialogOpen:false,
                 //Page Tree 代表创建的页面清单 需要保存
                 pages: [
@@ -99,11 +121,18 @@ class FormBuilder extends Component{
                             controls:[
                                 {
                                     layoutId:"a",
+                                    fieldId:'', //关联到Fields中的Field
                                     createOption:{
-                                        fieldId:'', //关联到Fields中的Field
                                         type:'BlueprintEditableText',
                                         property:{
-                                                data:{key:'DemoInput',value:''}
+                                                //控件本身的元数据描述
+                                                key:'DemoInput',
+                                                value:'',
+                                                defaultValue:function(context){eval('')},
+                                                dataSource:function(context){eval('')},
+                                                validation:function(context){eval('')},
+                                                required:false
+                                                
                                             }
                                     }
                                 }
@@ -125,6 +154,8 @@ class FormBuilder extends Component{
     componentDidMout()
     {
         //初始化fields 以及fieldDefinition
+        //this.state.fieldDefinitions=[];
+
         
     }
 
@@ -167,14 +198,14 @@ class FormBuilder extends Component{
     {
         this.setState({edit:false,canDelete:false});
     }
-    handleAddClick() //调出增加Fields选择组件
+    handleAddClick() //调出Config组件
     {
         this.setState({showWidgetChoose:true});
     }
 
 
 
-    handleChooseClose() //关闭Fields选择组件
+    handleChooseClose() //关闭Config组件
     {
         this.setState({showWidgetChoose:false});
     }
@@ -375,6 +406,32 @@ class FormBuilder extends Component{
         localStorage.setItem('context',JSON.stringify(this.state));
     }
 
+
+    //新增 编辑 Field Dialog 方法
+    handleFieldDialogOpen()
+    {
+        this.setState({fieldDialogOpen:true});
+    }
+    fieldDialogClose()
+    {
+        this.setState({fieldDialogOpen:false});
+    }
+
+
+    //Form Designer Config 中的controls的选择事件
+    controlChoose(controlOption)
+    {
+        this.state.choosedControl = controlOption;
+    }
+
+    //Form Designer Config 中的Add 按钮点击事件
+    //如果是控件 则把当前选择的控件加入pageLayout的控件集合
+    //如果是Field 则把当前选择的Field加入Field集合
+    configAdd()
+    {
+        let currentControls = _.result(_.find(this.state.pageLayout,{pageId:this.state.currentPage}),'controls');
+        //待续...
+    }
     render(){
 
 
@@ -388,7 +445,7 @@ class FormBuilder extends Component{
                 
 
                 <AddPageDialog isOpen={this.state.dialogOpen} handleAddDialogClose={this.handleAddDialogClose.bind(this)} handlePageNameChange={this.handlePageNameChange.bind(this)} />
-
+                <AddFieldDialog fieldDialogOpen={this.state.fieldDialogOpen} fieldDialogClose={this.fieldDialogClose.bind(this)}/>
                 <div className='pages-zone'>
                         <div className="pt-button-group .modifier">
                             <a className="pt-button pt-icon-add" tabIndex="0" role="button" onClick={this.handleAddDialogOpen.bind(this)}>Add Page</a>
@@ -430,10 +487,12 @@ class FormBuilder extends Component{
                                 handleAddClick={this.handleAddClick.bind(this)}
                     />
 
-                    <FieldChoose show={this.state.showWidgetChoose} 
+                    <FormDesignerConfig show={this.state.showWidgetChoose} 
+                                  configAddButtonDisable={this.state.configAddButtonDisable}
                                   handleChoose={this.handleChoose.bind(this)}
                                   handleChooseClose={this.handleChooseClose.bind(this)} 
                                   widgetItems={this.state.selectControls}
+                                  configAdd={this.configAdd.bind(this)}
                                 
                                   
                     >
@@ -445,24 +504,34 @@ class FormBuilder extends Component{
                             onChange={this.handleNavbarTabChange.bind(this)}
                             selectedTabId={this.state.navbarTabId}
                         >
-                            <Tab2 id="Fields" title="Fields" panel={<Tree
-                                        contents={this.state.fields}
-                                        onNodeClick={this.handleNodeClick.bind(this)}
-                                        onNodeCollapse={this.handleNodeCollapse.bind(this)}
-                                        onNodeExpand={this.handleNodeExpand.bind(this)}
-                                        className={Classes.ELEVATION_0}
-                                    />}/>
+                            <Tab2 id="Fields" title="Fields" panel={
+
+                                <div>
+                                    <div className="pt-button-group .modifier">
+                                        <a className="pt-button pt-icon-add" tabIndex="0" role="button" onClick={this.handleFieldDialogOpen.bind(this)}></a>
+                                        <a className="pt-button pt-icon-edit" tabIndex="0" role="button" onClick={this.save.bind(this)}></a>
+                                        <a className="pt-button pt-icon-cross" tabIndex="0" role="button"></a>
+                                    </div>
+                                    <Tree
+                                            contents={this.state.fields}
+                                            onNodeClick={this.handleNodeClick.bind(this)}
+                                            onNodeCollapse={this.handleNodeCollapse.bind(this)}
+                                            onNodeExpand={this.handleNodeExpand.bind(this)}
+                                            className={Classes.ELEVATION_0}
+                                    />
+                               </div>
+                            }/>
 
 
 
-
+                            <Tab2 id="Controls" title="Controls"  panel={<ControlList controlChoose={this.controlChoose.bind(this)}/>}/>
                             <Tab2 id="DataSource" title="Data Source" />
-                            <Tab2 id="Builds" title="Builds" />
+
                         </Tabs2>
 
 
 
-                    </FieldChoose>
+                    </FormDesignerConfig>
 
             </div>
         );

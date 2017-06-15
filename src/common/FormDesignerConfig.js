@@ -6,25 +6,15 @@
 import React, { Component, PropTypes } from 'react'
 import _ from 'lodash'
 import uuid from 'uuid'
-import WidgetChooseItem from './WidgetChooseItem'
 
-class FieldChoose extends Component{
+
+class FormDesignerConfig extends Component{
     constructor(props)
     {
         super(props)
-        this.state={
-            addBtnDisabled:true,
-            chosedWidgetItemId:''
-        }
+
 
     }
-
-
-    handleItemClick(itemId) 
-    {
-        this.setState({addBtnDisabled:false,chosedWidgetItemId:itemId});
-    }
-
 
     componentWillMount()
     {
@@ -32,9 +22,9 @@ class FieldChoose extends Component{
     }
 
 
-    handleChoose()
+    configAdd()
     {
-        this.props.handleChoose(this.state.chosedWidgetItemId);
+        this.props.configAdd();
     }
 
 
@@ -67,7 +57,7 @@ class FieldChoose extends Component{
                             </div>
                             <div className="bowtie blade-configuration-buttons">
                                 <nav>
-                                    <button ref='chooseBtn' type="button" data-action="save" className="btn-cta" disabled={this.state.addBtnDisabled}  onClick={this.handleChoose.bind(this)}>Add</button>
+                                    <button ref='chooseBtn' type="button" data-action="save" className="btn-cta" disabled={this.props.configAddButtonDisable}  onClick={this.configAdd.bind(this)}>Add</button>
                                     <button type="button" data-action="cancel" className="btn-default" onClick={this.props.handleChooseClose}>Close</button>
                                 </nav>
                             </div>
@@ -87,14 +77,14 @@ class FieldChoose extends Component{
 
 
 
-FieldChoose.propTypes={
-    handleChoose:PropTypes.func.isRequired, 
-    show:PropTypes.bool.isRequired,
-    handleChooseClose:PropTypes.func.isRequired,
-    widgetItems:PropTypes.array.isRequired
+FormDesignerConfig.propTypes={
+    configAdd:PropTypes.func.isRequired, 
+    configAddButtonDisable:PropTypes.bool.isRequired,
+    handleChooseClose:PropTypes.func.isRequired
+
 
     
 }
 
 
-module.exports = FieldChoose;
+module.exports = FormDesignerConfig;

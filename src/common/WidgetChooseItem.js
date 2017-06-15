@@ -27,7 +27,7 @@ class WidgetChooseItem extends Component{
                         <img className="widget-preview-image" src={imgUrl} />
                         <div className="widget-preview-text">
                             <div className="widget-name">{widgetName}</div>
-                            <div className="widget-description">{widgetDesc}</div>
+                            <div className="widget-description">{widgetDesc}</div> 
                         </div>
                     </div>
                     <div className="widget-preview-moreinfo">
