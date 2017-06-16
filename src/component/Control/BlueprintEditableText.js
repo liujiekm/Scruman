@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { EditableText  } from "@blueprintjs/core";
 
@@ -9,13 +10,13 @@ class BlueprintEditableText extends Component{
     {
         super(props);
         this.state={
-            value:props.data.value
+            value:props.value
         }
     }
 
     handleChange(value)
     {
-        this.props.data.handleTextChange(value);
+        //this.props.handleTextChange(value);
         this.setState({value:value});
     }
 
@@ -26,7 +27,6 @@ class BlueprintEditableText extends Component{
                 value={this.state.value}
                 onChange={this.handleChange.bind(this)}
                 placeholder="Edit ..."
-                
             />
         );
     }

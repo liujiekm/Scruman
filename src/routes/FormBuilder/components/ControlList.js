@@ -1,6 +1,6 @@
 /*Form Designer 界面右侧的控件选择清单 */
-
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 
 class ControlList extends Component{
@@ -113,7 +113,7 @@ class ControlList extends Component{
         let controlList = [];
         var self = this;
         this.state.controls.forEach(function(control){
-            controlList.push(<ControlItem  {...control} handleItemClick={self.props.controlChoose.bind(self)}/>);
+            controlList.push(<ControlItem key={control.id} {...control} handleItemClick={self.props.controlChoose.bind(self)}/>);
         });
         return controlList;
     }

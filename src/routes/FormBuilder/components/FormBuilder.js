@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { render } from 'react-dom'
 import PureRenderMixin  from 'react/lib/ReactComponentWithPureRenderMixin'
 import _ from 'lodash'
@@ -8,14 +9,14 @@ import uuid from 'uuid'
 import Field from '../../../content/data/field'
 import Widget from '../../../component/widget/Widget'
 import GridEdit from '../../../common/GridEdit'
-import FormDesignerConfig from '../../../common/FormDesignerConfig'
+import FormDesignerConfig from './FormDesignerConfig'
 
 import ControlList from './ControlList'
 
 import ModuleLoader from '../../../component/widget/ModuleLoader'
 import { Classes, ITreeNode, Tooltip, Tree, Switch, Tab2, Tabs2,Dialog } from "@blueprintjs/core"
 import AddPageDialog from './AddPageDialog'
-import AddFieldDialog from './AddFieldDialog'
+import FieldConfigDialog from './FieldConfigDialog'
 
 
 import ReactGridLayout from 'react-grid-layout'
@@ -86,8 +87,7 @@ class FormBuilder extends Component{
                         key:'root',
                         isExpanded: true,
                         childNodes: [
-                            { iconName: "label", label: "Item 0",id:'field1',key:'field1'},
-                            { iconName: "label", label: "Item 1",id:'field2',key:'field2' }
+
 
                         ],
                     },
@@ -96,8 +96,15 @@ class FormBuilder extends Component{
                 fieldDialogOpen:false,
                 //界面的字段定义
                 fieldDefinitions:[
-                    {id:'',name:'',value:'', type:''}
+                    {id:'',name:'',value:'', type:'',defaultValue:'',control:''}
                 ],
+
+                //暂存field 的控件属性
+                //fieldControl:[{fieldId:'',controlType:'',dataSource:''}],
+
+                //暂存field config属性
+                //fieldConfig:{},
+
                 //页面新增dialog是否弹出变量
                 dialogOpen:false,
                 //Page Tree 代表创建的页面清单 需要保存
@@ -236,15 +243,21 @@ class FormBuilder extends Component{
         
     }
 
+    //删除指定PageLayout中的指定control
     handleDelete(layoutId)
     {
-
-        this.setState({layouts:_.reject(this.state.layouts, {i: layoutId}),
-                        controls:_.reject(this.state.controls,{layoutId:layoutId})});
+        console.log(layoutId)
+        // let page = _.find(this.state.pageLayout,{pageId:this.state.currentPage});
+        // let controls = _.result(page,'controls');
+        // let layouts = _.reject(page,'layout');
+        // _.reject(controls,{layoutId:layoutId});
+        // _.reject(layouts,{i:layoutId});
+        // this.setState(this.state);
     }
     generateDOM(control) {
-        let element = React.createElement(ModuleLoader(control.createOption.type),control.createOption.property);
 
+        let element = React.createElement(ModuleLoader(control.createOption.type),control.createOption.property);
+        
         return (
             <div key={control.layoutId}>
                 <Widget  edit={this.state.edit} canDelete={this.state.canDelete} layoutId={control.layoutId} handleDelete={this.handleDelete.bind(this)}>
@@ -290,6 +303,8 @@ class FormBuilder extends Component{
             this.forEachNode(this.state.fields, (n) => n.isSelected = false);
         }
         nodeData.isSelected = originallySelected == null ? true : !originallySelected;
+        this.state.choosedField = nodeData;
+
         this.setState(this.state);
     }
 
@@ -416,6 +431,30 @@ class FormBuilder extends Component{
     {
         this.setState({fieldDialogOpen:false});
     }
+    fieldConfigEdit()
+    {
+
+    }
+
+
+    //field dialog config 配置项保存
+    fieldConfigSubmit(fieldConfig)
+    {
+        //创建field ID
+        //{id:'',name:'',value:'', type:'',defaultValue:'',control:''}
+        let savedFieldConfig = {
+            id:uuid.v1(),
+            name:fieldConfig.fieldName,
+            type:fieldConfig.type,
+            defaultValue:fieldConfig.defaultValue,
+            control:fieldConfig.control
+        };
+        this.state.fieldDefinitions.push(savedFieldConfig);
+        this.state.fields[0].childNodes.push({ iconName: "label", label: savedFieldConfig.name,id:savedFieldConfig.id,key:savedFieldConfig.id});
+        this.state.fieldDialogOpen=false;
+        this.setState(this.state);
+    }
+
 
 
     //Form Designer Config 中的controls的选择事件
@@ -429,8 +468,46 @@ class FormBuilder extends Component{
     //如果是Field 则把当前选择的Field加入Field集合
     configAdd()
     {
-        let currentControls = _.result(_.find(this.state.pageLayout,{pageId:this.state.currentPage}),'controls');
-        //待续...
+        //根据选中field 找到fieldDefinition 中的field定义
+        let fieldDefinition = _.find(this.state.fieldDefinitions,{id:this.state.choosedField.id});
+        //field 与pageLayhout中的control 关联
+        let currentPage = _.find(this.state.pageLayout,{pageId:this.state.currentPage});
+        let currentPageLayout = _.result(currentPage,'layout');
+        let currentControls = _.result(currentPage,'controls');
+
+
+
+        let layoutId = uuid.v1();
+        currentPageLayout.push({
+                i: layoutId,
+                x: 0,
+                y: Infinity, // puts it at the bottom
+                w: 1,
+                h: 1,
+                "isDraggable":true,
+                "isResizable":false
+            });
+        currentControls.push({
+            layoutId:layoutId,
+            fieldId:fieldDefinition.id, //关联到Fields中的Field
+            createOption:{
+                type:fieldDefinition.control,
+                property:{
+                        //控件本身的元数据描述
+                        key:fieldDefinition.name,
+                        value:'',
+                        defaultValue:function(context){eval('')},
+                        dataSource:function(context){eval('')},
+                        validation:function(context){eval('')},
+                        required:false
+                        
+                    }
+            }
+        });
+
+
+        this.setState(this.state);
+
     }
     render(){
 
@@ -445,7 +522,7 @@ class FormBuilder extends Component{
                 
 
                 <AddPageDialog isOpen={this.state.dialogOpen} handleAddDialogClose={this.handleAddDialogClose.bind(this)} handlePageNameChange={this.handlePageNameChange.bind(this)} />
-                <AddFieldDialog fieldDialogOpen={this.state.fieldDialogOpen} fieldDialogClose={this.fieldDialogClose.bind(this)}/>
+                <FieldConfigDialog fieldDialogOpen={this.state.fieldDialogOpen} fieldDialogClose={this.fieldDialogClose.bind(this)} fieldConfigSubmit={this.fieldConfigSubmit.bind(this)}/>
                 <div className='pages-zone'>
                         <div className="pt-button-group .modifier">
                             <a className="pt-button pt-icon-add" tabIndex="0" role="button" onClick={this.handleAddDialogOpen.bind(this)}>Add Page</a>
@@ -509,7 +586,7 @@ class FormBuilder extends Component{
                                 <div>
                                     <div className="pt-button-group .modifier">
                                         <a className="pt-button pt-icon-add" tabIndex="0" role="button" onClick={this.handleFieldDialogOpen.bind(this)}></a>
-                                        <a className="pt-button pt-icon-edit" tabIndex="0" role="button" onClick={this.save.bind(this)}></a>
+                                        <a className="pt-button pt-icon-edit" tabIndex="0" role="button" onClick={this.fieldConfigEdit.bind(this)}></a>
                                         <a className="pt-button pt-icon-cross" tabIndex="0" role="button"></a>
                                     </div>
                                     <Tree

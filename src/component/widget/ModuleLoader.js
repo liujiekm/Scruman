@@ -6,6 +6,8 @@ import EchartWidget from './EchartWidget'
 import EchartWidgetNormal from './EchartWidgetNormal'
 
 import BlueprintEditableText from '../Control/BlueprintEditableText'
+import BlueprintDateTime from '../Control/BlueprintDateTime'
+import BlueprintNumericInput from '../Control/BlueprintNumericInput'
 
 const modules = {
   SingleIndicate,
@@ -14,7 +16,9 @@ const modules = {
   MaterialText,
   EchartWidget,
   EchartWidgetNormal,
-  BlueprintEditableText
+  BlueprintEditableText,
+  BlueprintDateTime,
+  BlueprintNumericInput
 
   
 };

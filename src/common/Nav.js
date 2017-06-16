@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Router, Route, IndexRoute, Link } from 'react-router';
 
 import {Menu,Icon} from 'antd';

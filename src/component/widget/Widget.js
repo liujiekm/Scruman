@@ -3,7 +3,8 @@
     纯功能性的
  */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import classNames from 'classnames'
 
@@ -32,7 +33,10 @@ class Widget extends Component{
         this.props.handleDialogOpen();
     }
 
-
+    handleDelete()
+    {
+        this.props.handleDelete(this.props.layoutId);
+    }
 
     render(){
 
@@ -62,7 +66,7 @@ class Widget extends Component{
             <div className={wgtContainerClass} 
                                                
             >
-                <div className={wgtDeleteMenuClass} onClick={this.props.handleDelete.bind(this,layoutId)}>
+                <div className={wgtDeleteMenuClass} onClick={this.handleDelete.bind(this)}>
                     <div title="从dashboard删除widget" className="widget-edit-menu-button-container">
                         <button className="widget-edit-menu-button" title="从dashboard删除widget"  >
                             <ClearIcon />

@@ -1,5 +1,6 @@
 // scruman.cn网站入口文件
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { render } from 'react-dom'
 import { Router, browserHistory } from 'react-router'
 import mui from 'material-ui';

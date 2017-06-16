@@ -1,5 +1,5 @@
 export default{
-    path:'Home',
+    path:'FormBuilder',
     getComponent(location,cb){
         require.ensure([],(require)=>{
             cb(null,require('./components/FormBuilder'))
