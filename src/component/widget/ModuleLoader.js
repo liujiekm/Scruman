@@ -8,6 +8,7 @@ import EchartWidgetNormal from './EchartWidgetNormal'
 import BlueprintEditableText from '../Control/BlueprintEditableText'
 import BlueprintDateTime from '../Control/BlueprintDateTime'
 import BlueprintNumericInput from '../Control/BlueprintNumericInput'
+import BlueprintSelect from '../Control/BlueprintSelect'
 
 const modules = {
   SingleIndicate,
@@ -18,7 +19,8 @@ const modules = {
   EchartWidgetNormal,
   BlueprintEditableText,
   BlueprintDateTime,
-  BlueprintNumericInput
+  BlueprintNumericInput,
+  BlueprintSelect
 
   
 };

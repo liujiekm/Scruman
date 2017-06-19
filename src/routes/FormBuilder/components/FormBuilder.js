@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { render } from 'react-dom'
 import PureRenderMixin  from 'react/lib/ReactComponentWithPureRenderMixin'
 import _ from 'lodash'
+import Immutable from 'immutable'
 import uuid from 'uuid'
 
 //字段值对象
@@ -49,18 +50,18 @@ class FormBuilder extends Component{
                 canDelete:false,
                 editComponentClicked:false,
                 showWidgetChoose:false,
-                layouts:  [{"i":"a","x":18,"y":0,"w":2,"h":1,"isDraggable":true,"isResizable":true}],
-                controls:[{
-                            layoutId:"a",
-                            createOption:{
-                                fieldId:'',
-                                type:'BlueprintEditableText',
-                                property:{
-                                        data:{key:'DemoInput',value:'',handleTextChange:function(value){}}
-                                    }
-                            }
-                        }
-                ],
+                // layouts:  [{"i":"a","x":18,"y":0,"w":2,"h":1,"isDraggable":true,"isResizable":true}],
+                // controls:[{
+                //             layoutId:"a",
+                //             createOption:{
+                //                 fieldId:'',
+                //                 type:'BlueprintEditableText',
+                //                 property:{
+                //                         data:{key:'DemoInput',value:'',handleTextChange:function(value){}}
+                //                     }
+                //             }
+                //         }
+                // ],
 
 
                 //页面右侧的Config上的Add按钮是否可用变量
@@ -96,7 +97,7 @@ class FormBuilder extends Component{
                 fieldDialogOpen:false,
                 //界面的字段定义
                 fieldDefinitions:[
-                    {id:'',name:'',value:'', type:'',defaultValue:'',control:''}
+                    //{id:'',name:'',value:'', type:'',defaultValue:'',control:'',dataSource:'',validation:''}//defaultValue、dataSource、validation 为方法体string
                 ],
 
                 //暂存field 的控件属性
@@ -133,21 +134,21 @@ class FormBuilder extends Component{
                                         type:'BlueprintEditableText',
                                         property:{
                                                 //控件本身的元数据描述
-                                                key:'DemoInput',
+                                                controlKey:'DemoInput',
                                                 value:'',
-                                                defaultValue:function(context){eval('')},
-                                                dataSource:function(context){eval('')},
-                                                validation:function(context){eval('')},
-                                                required:false
+                                                defaultValue:'',
+                                                dataSource:'',
+                                                validation:''
+
                                                 
                                             }
                                     }
                                 }
-                            ],
-                            fields:[]
+                            ]
                         }
                     ],
                 //新增加页面的临时变量
+
                 addedPageName:'',
                 //当前选中页面Id的临时变量
                 currentPage:''
@@ -189,12 +190,24 @@ class FormBuilder extends Component{
     {
         if(!this.state.editComponentClicked)
         {
-            this.setState({editComponentClicked:true,edit:true,canDelete:true,
-                layouts:_.each(this.state.layouts,function(layout) {
-                    layout.isDraggable=true;
-                    layout.static=false;
-                })  
+            // this.setState({editComponentClicked:true,edit:true,canDelete:true,
+            //     layouts:_.each(this.state.layouts,function(layout) {
+            //         layout.isDraggable=true;
+            //         layout.static=false;
+            //     })  
+            // });
+            //找到对应页面的PageLayout中的layout 设置 isDraggable=true，static=false
+            let currentPage = _.find(this.state.pageLayout,{pageId:this.state.currentPage});
+            let currentPageLayout = _.result(currentPage,'layout');
+            currentPageLayout.forEach(function(layout){
+                layout.isDraggable=true;
+                layout.static=false;
             });
+            this.state.editComponentClicked=true;
+            this.state.edit=true;
+            this.state.canDelete=true;
+            this.setState(this.state);
+
         }else{
             this.setState({editComponentClicked:false,edit:false,canDelete:false});
         }
@@ -222,25 +235,7 @@ class FormBuilder extends Component{
 
     handleChoose(itemId) //选择widget控件加入layout
     {
-        //根据itemId获取WorkItems 中需要动态创建Component所需的变量
-        let selectedItem = _.find(this.state.selectControls,{id:itemId});
-        let layoutId = uuid.v1();
-        this.setState({
-            layouts:this.state.layouts.concat({
-                i: layoutId,
-                x: 0,
-                y: Infinity, // puts it at the bottom
-                w: 1,
-                h: 1,
-                "isDraggable":true,
-                "isResizable":true
-            }),
-            controls:this.state.controls.concat({
-                layoutId:layoutId,
-                createOption:selectedItem.widgetCreateObj
-            })
-        });
-        
+
     }
 
     //删除指定PageLayout中的指定control
@@ -254,18 +249,7 @@ class FormBuilder extends Component{
         // _.reject(layouts,{i:layoutId});
         // this.setState(this.state);
     }
-    generateDOM(control) {
 
-        let element = React.createElement(ModuleLoader(control.createOption.type),control.createOption.property);
-        
-        return (
-            <div key={control.layoutId}>
-                <Widget  edit={this.state.edit} canDelete={this.state.canDelete} layoutId={control.layoutId} handleDelete={this.handleDelete.bind(this)}>
-                {element}
-                </Widget>
-            </div>
-        );
-    }
 
     onBreakpointChange(breakpoint){
 
@@ -359,7 +343,7 @@ class FormBuilder extends Component{
                                     fieldId:'', //关联到Fields中的Field
                                     type:'MaterialSelect',
                                     property:{
-                                            data:{key:'DemoInput',value:name}
+                                            controlKey:'DemoInput',value:name
                                         }
                                 }
                     }]
@@ -389,8 +373,8 @@ class FormBuilder extends Component{
         let layout = _.result(_.find(this.state.pageLayout,{pageId:pageId}),'layout');
         this.state.layouts=layout;
         //加载当前页面的控件集合
-        let controls = _.result(_.find(this.state.pageLayout,{pageId:pageId}),'controls');
-        this.state.controls=controls;    
+        //let controls = _.result(_.find(this.state.pageLayout,{pageId:pageId}),'controls');
+        //this.state.controls=controls;    
         this.state.currentPage= pageId;
         this.setState(this.state);
     }
@@ -418,9 +402,14 @@ class FormBuilder extends Component{
     //保存所有配置
     save()
     {
+        console.log(this.state);
         localStorage.setItem('context',JSON.stringify(this.state));
     }
+    //发布页面到指定路径
+    publish()
+    {
 
+    }
 
     //新增 编辑 Field Dialog 方法
     handleFieldDialogOpen()
@@ -447,7 +436,9 @@ class FormBuilder extends Component{
             name:fieldConfig.fieldName,
             type:fieldConfig.type,
             defaultValue:fieldConfig.defaultValue,
-            control:fieldConfig.control
+            control:fieldConfig.control,
+            validation:fieldConfig.validation,
+            dataSource:fieldConfig.dataSource
         };
         this.state.fieldDefinitions.push(savedFieldConfig);
         this.state.fields[0].childNodes.push({ iconName: "label", label: savedFieldConfig.name,id:savedFieldConfig.id,key:savedFieldConfig.id});
@@ -475,8 +466,6 @@ class FormBuilder extends Component{
         let currentPageLayout = _.result(currentPage,'layout');
         let currentControls = _.result(currentPage,'controls');
 
-
-
         let layoutId = uuid.v1();
         currentPageLayout.push({
                 i: layoutId,
@@ -494,20 +483,37 @@ class FormBuilder extends Component{
                 type:fieldDefinition.control,
                 property:{
                         //控件本身的元数据描述
-                        key:fieldDefinition.name,
+                        controlKey:fieldDefinition.name,
                         value:'',
-                        defaultValue:function(context){eval('')},
-                        dataSource:function(context){eval('')},
-                        validation:function(context){eval('')},
-                        required:false
-                        
+                        defaultValue:fieldDefinition.defaultValue,
+                        dataSource:fieldDefinition.dataSource,
+                        validation:fieldDefinition.validation
+                       
                     }
             }
         });
 
+        
 
         this.setState(this.state);
 
+    }
+
+    generateDOM(control) {
+
+        let controlProperty = _.cloneDeep(control.createOption.property);
+        controlProperty.defaultValue=new Function("return " +controlProperty.defaultValue +";");
+        controlProperty.validation=new Function("return " +controlProperty.validation +";");
+        controlProperty.dataSource=new Function("return " +controlProperty.dataSource +";");
+        let element = React.createElement(ModuleLoader(control.createOption.type),controlProperty);
+        
+        return (
+            <div key={control.layoutId}>
+                <Widget  edit={this.state.edit} canDelete={this.state.canDelete} layoutId={control.layoutId} handleDelete={this.handleDelete.bind(this)}>
+                {element}
+                </Widget>
+            </div>
+        );
     }
     render(){
 
@@ -527,8 +533,8 @@ class FormBuilder extends Component{
                         <div className="pt-button-group .modifier">
                             <a className="pt-button pt-icon-add" tabIndex="0" role="button" onClick={this.handleAddDialogOpen.bind(this)}>Add Page</a>
                             <a className="pt-button pt-icon-confirm" tabIndex="0" role="button" onClick={this.save.bind(this)}>Save</a>
-                            <a className="pt-button" tabIndex="0" role="button">
-                                Options <span className="pt-icon-standard pt-icon-caret-down pt-align-right"></span>
+                            <a className="pt-button" tabIndex="0" role="button" onClick={this.publish.bind(this)}>
+                                Publish
                             </a>
                         </div>
                         <Tree

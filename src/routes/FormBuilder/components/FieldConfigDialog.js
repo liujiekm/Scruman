@@ -24,7 +24,9 @@ class FieldConfigDialog extends Component{
             fieldName:'',
             defaultValue:'',
             type:'string',
-            control:'BlueprintEditableText'
+            control:'BlueprintEditableText',
+            dataSource:'',
+            validation:''
 
         }
 
@@ -56,7 +58,14 @@ class FieldConfigDialog extends Component{
         this.setState({control: e.target.value});
     }
 
-
+    fieldValidationChange(e)
+    {
+        this.setState({validation: e.target.value});
+    }
+    fieldDataSourceChange(e)
+    {
+        this.setState({dataSource: e.target.value});
+    }
     //field 配置提交保存
     fieldConfigSubmit()
     {
@@ -125,6 +134,7 @@ class FieldConfigDialog extends Component{
                                         <option value='BlueprintEditableText'>文本框</option>
                                         <option value="BlueprintDateTime">日期选择</option>
                                         <option value="BlueprintNumericInput">数字框</option>
+                                        <option value="BlueprintSelect">单选框</option>
                                     </select>
                                 </div>
                             </div>
@@ -136,6 +146,26 @@ class FieldConfigDialog extends Component{
                             </label>
                             <div className="pt-form-content">
                                 <input className="pt-input"   type="text" dir="auto" value={this.state.defaultValue} onChange={this.fieldDefaultValueChange.bind(this)} />
+                            </div>
+                        </div>
+
+
+                        <div className="pt-form-group">
+                            <label className="pt-label">
+                                Validate
+                            </label>
+                            <div className="pt-form-content">
+                                <input className="pt-input"   type="text" dir="auto"  value={this.state.validation} onChange={this.fieldValidationChange.bind(this)} />
+                            </div>
+                        </div>
+
+
+                        <div className="pt-form-group">
+                            <label className="pt-label">
+                                Data Source
+                            </label>
+                            <div className="pt-form-content">
+                                <input className="pt-input"   type="text" dir="auto" value={this.state.dataSource} onChange={this.fieldDataSourceChange.bind(this)} />
                             </div>
                         </div>
 

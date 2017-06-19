@@ -39,6 +39,7 @@
     "webpack-hot-middleware": "2.10.0"
   },
   "dependencies": {
+    "immutable":"^3.8.1",
     "react-tools":"^0.13.3",
     "react-dnd":"^2.3.0",
     "react-dnd-html5-backend":"^2.3.0",
