@@ -214,7 +214,7 @@ class Home extends Component{
     }
     componentDidMount()
     {
-        
+
     }
 
     handleChooseClose() //关闭widgets选择组件
@@ -310,6 +310,7 @@ class Home extends Component{
 
             return (
                 <div>
+                    
                     <ReactGridLayout  className="layout" layout={this.state.layout}  
                         cols={10} rowHeight={30} width={1000} isDraggable={this.state.edit} margin={[15,15]}
                             onLayoutChange={this.onLayoutChange.bind(this)} >

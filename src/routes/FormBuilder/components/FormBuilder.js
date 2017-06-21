@@ -19,6 +19,8 @@ import { Classes, ITreeNode, Tooltip, Tree, Switch, Tab2, Tabs2,Dialog } from "@
 import AddPageDialog from './AddPageDialog'
 import FieldConfigDialog from './FieldConfigDialog'
 
+import ControlConfigDialog from '../../../common/ControlConfigDialog'
+
 
 import ReactGridLayout from 'react-grid-layout'
 import {Responsive, WidthProvider } from 'react-grid-layout';
@@ -46,10 +48,11 @@ class FormBuilder extends Component{
         {
             this.state={
                 mounted: false,
-                edit:true,
+                edit:false,
                 canDelete:false,
                 editComponentClicked:false,
                 showWidgetChoose:false,
+                showControlConfigDialog:false,   //控制控件配置页面dialog的打开与关闭
                 // layouts:  [{"i":"a","x":18,"y":0,"w":2,"h":1,"isDraggable":true,"isResizable":true}],
                 // controls:[{
                 //             layoutId:"a",
@@ -129,7 +132,7 @@ class FormBuilder extends Component{
                             controls:[
                                 {
                                     layoutId:"a",
-                                    fieldId:'', //关联到Fields中的Field
+                                    fieldId:'', //关联到fieldDefinitions中的id
                                     createOption:{
                                         type:'BlueprintEditableText',
                                         property:{
@@ -138,8 +141,8 @@ class FormBuilder extends Component{
                                                 value:'',
                                                 defaultValue:'',
                                                 dataSource:'',
-                                                validation:''
-
+                                                validation:'',
+                                                handleChange:''
                                                 
                                             }
                                     }
@@ -151,7 +154,8 @@ class FormBuilder extends Component{
 
                 addedPageName:'',
                 //当前选中页面Id的临时变量
-                currentPage:''
+                currentPage:'',
+                currentControlConfig:{}
 
             }
         }
@@ -241,13 +245,16 @@ class FormBuilder extends Component{
     //删除指定PageLayout中的指定control
     handleDelete(layoutId)
     {
-        console.log(layoutId)
-        // let page = _.find(this.state.pageLayout,{pageId:this.state.currentPage});
-        // let controls = _.result(page,'controls');
-        // let layouts = _.reject(page,'layout');
-        // _.reject(controls,{layoutId:layoutId});
-        // _.reject(layouts,{i:layoutId});
-        // this.setState(this.state);
+        //console.log(layoutId)
+        let page = _.find(this.state.pageLayout,{pageId:this.state.currentPage});
+        let controls = _.result(page,'controls');
+        let layouts = _.result(page,'layout');
+        let newControls=_.reject(controls,{layoutId:layoutId});
+        let newLayouts=_.reject(layouts,{i:layoutId});
+
+        page.controls=newControls;
+        page.layout=newLayouts;
+        this.setState(this.state);
     }
 
 
@@ -451,6 +458,7 @@ class FormBuilder extends Component{
     //Form Designer Config 中的controls的选择事件
     controlChoose(controlOption)
     {
+        
         this.state.choosedControl = controlOption;
     }
 
@@ -459,62 +467,146 @@ class FormBuilder extends Component{
     //如果是Field 则把当前选择的Field加入Field集合
     configAdd()
     {
-        //根据选中field 找到fieldDefinition 中的field定义
-        let fieldDefinition = _.find(this.state.fieldDefinitions,{id:this.state.choosedField.id});
-        //field 与pageLayhout中的control 关联
-        let currentPage = _.find(this.state.pageLayout,{pageId:this.state.currentPage});
-        let currentPageLayout = _.result(currentPage,'layout');
-        let currentControls = _.result(currentPage,'controls');
 
-        let layoutId = uuid.v1();
-        currentPageLayout.push({
-                i: layoutId,
-                x: 0,
-                y: Infinity, // puts it at the bottom
-                w: 1,
-                h: 1,
-                "isDraggable":true,
-                "isResizable":false
+        //根据是Field或者Control来判断增加的内容
+        let tab = this.state.navbarTabId;
+        if(tab=='Fields')
+        {
+            //根据选中field 找到fieldDefinition 中的field定义
+            let fieldDefinition = _.find(this.state.fieldDefinitions,{id:this.state.choosedField.id});
+            //field 与pageLayhout中的control 关联
+            let currentPage = _.find(this.state.pageLayout,{pageId:this.state.currentPage});
+            let currentPageLayout = _.result(currentPage,'layout');
+            let currentControls = _.result(currentPage,'controls');
+
+            let layoutId = uuid.v1();
+            currentPageLayout.push({
+                    i: layoutId,
+                    x: 0,
+                    y: Infinity, // puts it at the bottom
+                    w: 1,
+                    h: 1,
+                    "isDraggable":true,//添加进入的时候不允许拖动
+                    "isResizable":true//添加进入的时候不允许拉伸
+                });
+            currentControls.push({
+                layoutId:layoutId,
+                fieldId:fieldDefinition.id, //关联到Fields中的Field
+                createOption:{
+                    type:fieldDefinition.control,
+                    property:{
+                            //控件本身的元数据描述
+                            controlKey:fieldDefinition.name,
+                            value:'',
+                            defaultValue:fieldDefinition.defaultValue,
+                            dataSource:fieldDefinition.dataSource,
+                            validation:fieldDefinition.validation
+                        
+                        }
+                }
             });
-        currentControls.push({
-            layoutId:layoutId,
-            fieldId:fieldDefinition.id, //关联到Fields中的Field
-            createOption:{
-                type:fieldDefinition.control,
-                property:{
-                        //控件本身的元数据描述
-                        controlKey:fieldDefinition.name,
-                        value:'',
-                        defaultValue:fieldDefinition.defaultValue,
-                        dataSource:fieldDefinition.dataSource,
-                        validation:fieldDefinition.validation
-                       
-                    }
-            }
-        });
+        }
+        else if(tab=='Controls')
+        {
+            let controlOption =this.state.choosedControl;
+            let currentPage = _.find(this.state.pageLayout,{pageId:this.state.currentPage});
+            let currentPageLayout = _.result(currentPage,'layout');
+            let currentControls = _.result(currentPage,'controls');
 
-        
+            let layoutId = uuid.v1();
+            currentPageLayout.push({
+                    i: layoutId,
+                    x: 0,
+                    y: Infinity, // puts it at the bottom
+                    w: 1,
+                    h: 1,
+                    "isDraggable":true,//添加进入的时候不允许拖动
+                    "isResizable":true//添加进入的时候不允许拉伸
+                });
+            currentControls.push({
+                layoutId:layoutId,
+                fieldId:'', 
+                createOption:{
+                    type:controlOption.type,
+                    property:controlOption.props
+                }
+            });
+        }
+
 
         this.setState(this.state);
 
     }
+    //打开修改已经添加到界面上的控件的配置信息Dialog
+    openAddedControlConfig(control)
+    {
+        this.setState({showControlConfigDialog:true,currentControlConfig:control});
+    }
+
+    //保存控件的配置信息
+    configConfigSave(layoutId,configuredControlProperty,ifSave) //widget 配置项目修改保存 ifSave 判断是否需要保存
+    {
+        if(ifSave)
+        {
+            //获取当前页面
+            let currentPage = _.find(this.state.pageLayout,{pageId:this.state.currentPage});
+            let currentPageLayout = _.result(currentPage,'layout');
+            let currentControls = _.result(currentPage,'controls');
+            _.forEach(currentControls,function(item){
+                
+                if(item.layoutId===layoutId)
+                {
+                    _.merge(item.createOption.property,configuredControlProperty);
+                }
+            });
+            this.state.showControlConfigDialog = false;
+            
+        }
+        else{
+            this.state.showControlConfigDialog = false;
+            
+        }
+        
+        this.setState(this.state);
+    }
+
+
+
 
     generateDOM(control) {
 
         let controlProperty = _.cloneDeep(control.createOption.property);
-        controlProperty.defaultValue=new Function("return " +controlProperty.defaultValue +";");
-        controlProperty.validation=new Function("return " +controlProperty.validation +";");
-        controlProperty.dataSource=new Function("return " +controlProperty.dataSource +";");
+        controlProperty.defaultValue=new Function("var context = this.state;  return " +controlProperty.defaultValue +";").bind(this);
+        controlProperty.validation=new Function("var context = this.state; return " +controlProperty.validation +";").bind(this);
+        controlProperty.dataSource=new Function("var context = this.state; return " +controlProperty.dataSource +";").bind(this);
+        //各控件传出value到state
+        let handleChangeFunctionBody = "control.createOption.property.value=value;this.setState(this.state);"
+        controlProperty.handleChange=new Function("control","value",handleChangeFunctionBody).bind(this,control);
         let element = React.createElement(ModuleLoader(control.createOption.type),controlProperty);
         
         return (
             <div key={control.layoutId}>
-                <Widget  edit={this.state.edit} canDelete={this.state.canDelete} layoutId={control.layoutId} handleDelete={this.handleDelete.bind(this)}>
+                <Widget  edit={this.state.edit} canDelete={this.state.canDelete} layoutId={control.layoutId} handleDelete={this.handleDelete.bind(this)}
+                handleDialogOpen={this.openAddedControlConfig.bind(this,control)}>
                 {element}
                 </Widget>
             </div>
         );
     }
+
+    //同步设置控件的大小
+    handleResizeStop(layout, oldItem, newItem,
+                     placeholder, e, element)
+    {
+        // console.log(layout)
+        // console.log(oldItem)
+        // console.log(newItem)
+        // console.log(placeholder)
+        // console.log(e)
+        // console.log(element);
+    }
+
+
     render(){
 
 
@@ -529,6 +621,12 @@ class FormBuilder extends Component{
 
                 <AddPageDialog isOpen={this.state.dialogOpen} handleAddDialogClose={this.handleAddDialogClose.bind(this)} handlePageNameChange={this.handlePageNameChange.bind(this)} />
                 <FieldConfigDialog fieldDialogOpen={this.state.fieldDialogOpen} fieldDialogClose={this.fieldDialogClose.bind(this)} fieldConfigSubmit={this.fieldConfigSubmit.bind(this)}/>
+                
+                <ControlConfigDialog open={this.state.showControlConfigDialog}  
+                                        
+                                        handleOptionSave={this.configConfigSave.bind(this)}
+                                        controlConfig={this.state.currentControlConfig}/>
+                
                 <div className='pages-zone'>
                         <div className="pt-button-group .modifier">
                             <a className="pt-button pt-icon-add" tabIndex="0" role="button" onClick={this.handleAddDialogOpen.bind(this)}>Add Page</a>
@@ -546,7 +644,7 @@ class FormBuilder extends Component{
                             onNodeContextMenu={this.handleNodeContextMenu.bind(this)}
                         />
                     
-                    </div>
+                </div>
                 <form className='form-designer'>
                     <ReactGridLayout
                             {...this.props}
@@ -559,6 +657,7 @@ class FormBuilder extends Component{
                             // I like to have it animate on mount. If you don't, delete `useCSSTransforms` (it's default `true`)
                             // and set `measureBeforeMount={true}`.
                             useCSSTransforms={this.state.mounted}
+                            onResizeStop={this.handleResizeStop.bind(this)}
                             >
                             {_.map(currentControls, this.generateDOM.bind(this))}
                     </ReactGridLayout>
@@ -626,7 +725,8 @@ FormBuilder.defaultProps = {
     rowHeight: 30,
     width:1200,
     cols: 36,
-    verticalCompact:false
+    verticalCompact:false,
+    isResizable:true
     
 }
 

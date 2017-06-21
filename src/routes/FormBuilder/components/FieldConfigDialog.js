@@ -131,13 +131,18 @@ class FieldConfigDialog extends Component{
                             <div className="pt-form-content">
                                 <div className="pt-select">
                                     <select value={this.state.control} onChange={this.fieldControlChange.bind(this)}>
-                                        <option value='BlueprintEditableText'>文本框</option>
+                                        <option value='BlueprintEditableText'>文本框(Lable)</option>
+                                        <option value='BlueprintText'>文本框</option>
                                         <option value="BlueprintDateTime">日期选择</option>
                                         <option value="BlueprintNumericInput">数字框</option>
                                         <option value="BlueprintSelect">单选框</option>
                                     </select>
                                 </div>
                             </div>
+                        </div>
+
+
+                        <div className="pt-form-group">
                         </div>
 
                         <div className="pt-form-group">

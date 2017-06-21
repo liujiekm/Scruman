@@ -14,19 +14,21 @@ class BlueprintDateTime extends Component{
             disabled: false,
             format: 'YYYY-MM-DD',
             openOnFocus: true,
-            timePrecision: TimePickerPrecision
+            timePrecision: TimePickerPrecision,
+            style:{}
         }
     }
 
 
     handleChange(selectedDate)
     {
+        this.props.handleChange(selectedDate);
         this.setState({value:selectedDate});
     }
     render(){
 
         return(
-            <DateInput {...this.state} value={this.state.value} onChange={this.handleChange.bind(this)} />
+            <DateInput style={this.state.style} {...this.state} value={this.state.value} onChange={this.handleChange.bind(this)} />
 
         );
     }

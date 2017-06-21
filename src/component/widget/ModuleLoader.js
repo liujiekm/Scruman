@@ -10,6 +10,10 @@ import BlueprintDateTime from '../Control/BlueprintDateTime'
 import BlueprintNumericInput from '../Control/BlueprintNumericInput'
 import BlueprintSelect from '../Control/BlueprintSelect'
 
+import BlueprintButton from '../Control/BlueprintButton'
+//BlueprintText
+import BlueprintText from '../Control/BlueprintText'
+
 const modules = {
   SingleIndicate,
   MaterialTable,
@@ -20,7 +24,9 @@ const modules = {
   BlueprintEditableText,
   BlueprintDateTime,
   BlueprintNumericInput,
-  BlueprintSelect
+  BlueprintSelect,
+  BlueprintButton,
+  BlueprintText
 
   
 };

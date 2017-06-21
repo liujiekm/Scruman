@@ -33,7 +33,7 @@ class Widget extends Component{
         this.props.handleDialogOpen();
     }
 
-    handleDelete()
+    removeWidget()
     {
         this.props.handleDelete(this.props.layoutId);
     }
@@ -66,11 +66,11 @@ class Widget extends Component{
             <div className={wgtContainerClass} 
                                                
             >
-                <div className={wgtDeleteMenuClass} onClick={this.handleDelete.bind(this)}>
+                <div className={wgtDeleteMenuClass} onClick={this.removeWidget.bind(this)}>
                     <div title="从dashboard删除widget" className="widget-edit-menu-button-container">
-                        <button className="widget-edit-menu-button" title="从dashboard删除widget"  >
+                        <span className="widget-edit-menu-button" title="从dashboard删除widget"  >
                             <ClearIcon />
-                        </button>
+                        </span>
                     </div>
                 </div>
                 

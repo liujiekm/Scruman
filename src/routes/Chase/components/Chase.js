@@ -36,7 +36,8 @@ export default class Chase extends Component{
         // var boardItem = localStorage.getItem('board');
         // var obj = reactTools.transform(aboutComponent,{harmony:true,es6module:true});
         // console.log(obj);
-
+        this.state.test1='1111';
+        this.setState(this.state);
 
     }
     handleSquareDrop(position)
@@ -49,7 +50,8 @@ export default class Chase extends Component{
 
         return(
 
-            <Board knightPosition={this.state.position} handleSquareDrop={this.handleSquareDrop.bind(this)}/>
+                <Board knightPosition={this.state.position} handleSquareDrop={this.handleSquareDrop.bind(this)}/>
+
 
         )
     }

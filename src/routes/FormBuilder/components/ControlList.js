@@ -21,82 +21,19 @@ class ControlList extends Component{
                                 {
                                     id:'1',
                                     imgUrl:'./src/content/img/assignedToMe.png',
-                                    widgetName:'焦点数据',
-                                    widgetDesc:'集中显示用户比较关心的焦点数据，一目了然，明确，明显',
+                                    widgetName:'Blueprint Button',
+                                    widgetDesc:'按钮',
                                     widgetCreateObj:
                                         {
-                                            type:'SingleIndicate',
+                                            type:'BlueprintButton',
                                             props:
                                                 {
-                                                    indicate:'911',
-                                                    bgColor:'rgb(255,109,96)',
-                                                    desc:'Happend',
-                                                    iconClassName:'icon-tags icon-3x'
+                                                    text:'按钮'
                                                 },
                                             size:
                                             {
                                                 w:3,
-                                                h:2
-                                            }
-                                        }
-                                },
-                                {
-                                    id:'2',
-                                    imgUrl:'./src/content/img/assignedToMe.png',
-                                    widgetName:'示例数据',
-                                    widgetDesc:'just something about component desc',
-                                    widgetCreateObj:
-                                        {
-                                            type:'SingleIndicate',
-                                            props:
-                                                {
-                                                    indicate:'555',
-                                                    bgColor:'rgb(155,109,96)',
-                                                    desc:'Already',
-                                                    iconClassName:'icon-tags icon-3x'
-                                                },
-                                            size:
-                                            {
-                                                w:3,
-                                                    h:2
-                                            }
-                                        }
-                                },
-                                {
-                                    id:'3',
-                                    imgUrl:'./src/content/img/assignedToMe.png',
-                                    widgetName:'Echart Widget',
-                                    widgetDesc:'历史趋势图',
-                                    widgetCreateObj:
-                                        {
-                                            type:'EchartWidget',
-                                            props:
-                                                {
-                                                    
-                                                },
-                                            size:
-                                            {
-                                                w:4,
                                                 h:3
-                                            }
-                                        }
-                                },
-                                {
-                                    id:'4',
-                                    imgUrl:'./src/content/img/assignedToMe.png',
-                                    widgetName:'Echart Detail Widget',
-                                    widgetDesc:'详细图表',
-                                    widgetCreateObj:
-                                        {
-                                            type:'EchartWidgetNormal',
-                                            props:
-                                                {
-                                                    
-                                                },
-                                            size:
-                                            {
-                                                w:7,
-                                                h:7
                                             }
                                         }
                                 }
@@ -113,7 +50,7 @@ class ControlList extends Component{
         let controlList = [];
         var self = this;
         this.state.controls.forEach(function(control){
-            controlList.push(<ControlItem key={control.id} {...control} handleItemClick={self.props.controlChoose.bind(self)}/>);
+            controlList.push(<ControlItem key={control.id} {...control} handleItemClick={self.props.controlChoose.bind(self,control.widgetCreateObj)}/>);
         });
         return controlList;
     }

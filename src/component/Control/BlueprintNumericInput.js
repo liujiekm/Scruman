@@ -11,7 +11,8 @@ class BlueprintNumericInput extends Component
         this.state={
             value:0,
             max:100,
-            min:-100
+            min:-100,
+            style:{}
 
         }
 
@@ -24,7 +25,7 @@ class BlueprintNumericInput extends Component
     render(){
         let {value,max,min} = this.state;
         return (
-            <NumericInput  value={value} max={max} min={min} onValueChange={this.handleChange.bind(this)} placeholder="输入数字"/>
+            <NumericInput style={this.state.style}  value={value} max={max} min={min} onValueChange={this.handleChange.bind(this)} placeholder="输入数字"/>
 
 
         );

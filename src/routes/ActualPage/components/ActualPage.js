@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { render } from 'react-dom'
 
 
+import FormContainer from '../../FormBuilder/components/FormContainer'
+
+
 
 class ActualPage extends Component{
     constructor(props)
@@ -13,8 +16,7 @@ class ActualPage extends Component{
     render(){
         return (
 
-            <div>
-                </div>
+            <FormContainer />
 
         );
     }

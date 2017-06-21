@@ -26,6 +26,7 @@ const style={
         //      indicate:props.indicate,
         //      desc:props.desc
         //  }
+        this.state={}
 
      }
 
@@ -49,6 +50,7 @@ const style={
 
         return (
             <div style={style} >
+                
                 <div style={{'backgroundColor':this.props.data.bgColor,'width':'100px','height':'100%','float':'left','color':'white','paddingTop': '15px'}}>
                     <i className={this.props.data.iconClassName}></i>
                 </div>

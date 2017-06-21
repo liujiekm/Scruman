@@ -237,9 +237,9 @@ top: 57px;
 
 .widget-edit-menu {
     position: absolute;
-    right: 0;
-    top: 0;
-    margin: 2px;
+    right: -15px;
+    top: -15px;
+    /*margin: 2px;*/
     z-index: 5;
     text-align: right;
     float: right;
@@ -252,9 +252,9 @@ top: 57px;
 .widget-config-menu
 {
     position: absolute;
-    right: 40px;
-    top: 0;
-    margin: 2px;
+    right: 25px;
+    top: -15px;
+    /*margin: 2px;*/
     z-index: 5;
     text-align: right;
     float: right;
@@ -490,12 +490,13 @@ input, textarea, select {
     flex: 1;
 }
 .blade-menu-blade .widget-list-container {
-    overflow-x: hidden;
-    overflow-y: scroll;
+    /*overflow-x: hidden;
+    overflow-y: scroll;*/
     width: 100%;
     border-bottom: 1px solid #e8e8e8;
     border-top: 1px solid #e8e8e8;
 }
+
 
 
 .blade-menu-blade .extension-gallery-marketing {
@@ -752,6 +753,14 @@ button, button.ui-state-default, button.ui-button {
     float:right;
     border: 1px solid blue;    
 
+}
+
+
+
+#pt-tab-panel_navbar_Controls
+{
+    overflow: scroll;
+    height: 660px;
 }
 
 
