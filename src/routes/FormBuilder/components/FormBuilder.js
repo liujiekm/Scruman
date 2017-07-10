@@ -152,7 +152,7 @@ class FormBuilder extends Component{
                     ],
                 //新增加页面的临时变量
 
-                addedPageName:'',
+                addedPage:{Name:'',Url:''},
                 //当前选中页面Id的临时变量
                 currentPage:'',
                 currentControlConfig:{}
@@ -360,7 +360,7 @@ class FormBuilder extends Component{
         //this.state.layouts.lg=[]; //或者初始化直接设置为空
     }
     handleAddDialogClose(){
-        this.addPage(this.state.addedPageName);
+        this.addPage(this.state.addedPage.Name);
         this.state.dialogOpen=false;
         this.setState(this.state);
     }
@@ -400,11 +400,17 @@ class FormBuilder extends Component{
         this.setState({dialogOpen:true});
     }
 
-
+    /* 新增页面dialog 回调方法*/
     handlePageNameChange(value)
     {
-        this.setState({addedPageName:value});
+        this.setState({addedPage:{Name:value}});
     }
+
+    handlePageUrlChange(value)
+    {
+        this.setState({addedPage:{Url:value}});
+    }
+    /* ----------------------*/
 
     //保存所有配置
     save()
@@ -619,7 +625,10 @@ class FormBuilder extends Component{
             <div style={{'width':'100%','height':'100%'}}>
                 
 
-                <AddPageDialog isOpen={this.state.dialogOpen} handleAddDialogClose={this.handleAddDialogClose.bind(this)} handlePageNameChange={this.handlePageNameChange.bind(this)} />
+                <AddPageDialog isOpen={this.state.dialogOpen} 
+                    handleAddDialogClose={this.handleAddDialogClose.bind(this)} 
+                    handlePageNameChange={this.handlePageNameChange.bind(this)}
+                    handlePageUrlChange={this.handlePageUrlChange.bind(this)} />
                 <FieldConfigDialog fieldDialogOpen={this.state.fieldDialogOpen} fieldDialogClose={this.fieldDialogClose.bind(this)} fieldConfigSubmit={this.fieldConfigSubmit.bind(this)}/>
                 
                 <ControlConfigDialog open={this.state.showControlConfigDialog}  

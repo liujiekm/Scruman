@@ -38,7 +38,7 @@ class FormContainer extends Component{
         this.setState(this.state);
     }
 
-    handleNodeExpand (nodeData)
+    handleNodeExpand(nodeData)
     {
         nodeData.isExpanded = true;
         nodeData.iconName='folder-open'
