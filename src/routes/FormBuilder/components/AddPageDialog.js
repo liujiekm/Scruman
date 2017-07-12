@@ -12,20 +12,23 @@ class AddPageDialog extends Component{
             pageUrl:''
         }
 
+
     }
 
     handleClose(){
-        this.props.handleAddDialogClose();
+        
+        this.props.handleAddDialogClose({name:this.state.pageName,url:this.state.pageUrl});
     }
 
     handlePageNameChange(e)
     {
-        this.props.handlePageNameChange(e.target.value);
-        this.setState({pageName:e.target.valuee});
+        
+        //this.props.handlePageNameChange(e.target.value);
+        this.setState({pageName:e.target.value});
     }
     handlePageUrlChange(e)
     {
-        this.props.handlePageUrlChange(e.target.valuee);
+        //this.props.handlePageUrlChange(e.target.valuee);
         this.setState({pageUrl:e.target.value});
     }
     render(){
@@ -42,11 +45,11 @@ class AddPageDialog extends Component{
                         
                         <label className="pt-label">
                             Page Name
-                                <input className="pt-input pt-fill" type="text" value={this.state.pageName} onChange={this.handlePageNameChange.bind(this)} dir="auto" />
+                                <input className="pt-input pt-fill" type="text" value={this.state.pageName} onChange={this.handlePageNameChange.bind(this)}  />
                         </label>
                         <label className="pt-label">
                             Page Url
-                                <input className="pt-input pt-fill" type="text" value={this.state.pageUrl} onChange={this.handlePageUrlChange.bind(this)} dir="auto" />
+                                <input className="pt-input pt-fill" type="text" value={this.state.pageUrl} onChange={this.handlePageUrlChange.bind(this)}  />
                         </label>
                     </div>
                     <div className={Classes.DIALOG_FOOTER}>

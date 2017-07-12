@@ -16,9 +16,45 @@ import FormBuilder from '../routes/FormBuilder/components/FormBuilder'
 import ActualPage from '../routes/ActualPage/components/ActualPage'
 
 
+const isReactComponent = (obj) => Boolean(obj && obj.prototype && Boolean(obj.prototype.isReactComponent));
+
+const component = (component) => {
+  return isReactComponent(component)
+    ? {component}
+    : {getComponent: (loc, cb)=> component(
+         comp=> cb(null, comp.default || comp))}
+};
 
 
 
+
+const routes = {
+  path: '/',
+  component: App,
+  indexRoute: { component: Home },
+  childRoutes: [
+    { path: 'Home', component: Home },
+    {
+      path: 'Config',
+      component: Config
+    },
+    {
+      path:'Chase',
+      component: Chase
+      
+    },
+    {
+      path:'FormBuilder',
+      component: FormBuilder
+      
+    },
+    {
+      path:'ActualPage',
+      component: ActualPage
+      
+    }
+  ]
+}
 
 
 
@@ -45,27 +81,13 @@ import ActualPage from '../routes/ActualPage/components/ActualPage'
 //   }
 // }
 
-const isReactComponent = (obj) => Boolean(obj && obj.prototype && Boolean(obj.prototype.isReactComponent));
 
-const component = (component) => {
-  return isReactComponent(component)
-    ? {component}
-    : {getComponent: (loc, cb)=> component(
-         comp=> cb(null, comp.default || comp))}
-};
 
 
 
 const Routes = ({ history }) =>
-  <Router history={history}>
-    <Route path="/" component={App} >
-        <IndexRoute {...component(Home)}/>
-        <Route path="Home"    {...component(Home)} />
-        <Route path="Config"  {...component(Config)}/>
-        <Route path="Chase"  {...component(Chase)}/>
-        <Route path="FormBuilder"  {...component(FormBuilder)}/>
-        <Route path="ActualPage"  {...component(ActualPage)}/>
-    </Route>
+  <Router history={history} routes={routes}>
+
     
   </Router>;
 
@@ -74,3 +96,13 @@ Routes.propTypes = {
 };
 
 export default Routes;
+
+
+    // <Route path="/" component={App} >
+    //     <IndexRoute {...component(Home)}/>
+    //     <Route path="Home"    {...component(Home)} />
+    //     <Route path="Config"  {...component(Config)}/>
+    //     <Route path="Chase"  {...component(Chase)}/>
+    //     <Route path="FormBuilder"  {...component(FormBuilder)}/>
+    //     <Route path="ActualPage"  {...component(ActualPage)}/>
+    // </Route>

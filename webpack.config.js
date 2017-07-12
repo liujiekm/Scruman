@@ -39,23 +39,23 @@ module.exports = {
                 loaders: ['react-hot','babel-loader?presets[]=es2015&presets[]=react']
             },
             //need to lazy loading  that need this load to isolate the file chunk
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                include: [path.resolve(__dirname, 'src/routes/Home')],
-                loaders: ['bundle?lazy&name=Home','babel-loader?presets[]=es2015&presets[]=react']
-            },
+            // {
+            //     test: /\.js$/,
+            //     exclude: /node_modules/,
+            //     include: [path.resolve(__dirname, 'src/routes/Home')],
+            //     loaders: ['bundle?lazy&name=Home','babel-loader?presets[]=es2015&presets[]=react']
+            // },
 
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                include: [path.resolve(__dirname, 'src/routes/Config')],
-                loaders: ['bundle?lazy&name=Config','babel-loader?presets[]=es2015&presets[]=react']
-            },
+            // {
+            //     test: /\.js$/,
+            //     exclude: /node_modules/,
+            //     include: [path.resolve(__dirname, 'src/routes/Config')],
+            //     loaders: ['bundle?lazy&name=Config','babel-loader?presets[]=es2015&presets[]=react']
+            // },
 
             {
                 test: /\.css$/,
-                loader: ExtracTextPlugin.extract('style-loader','css-loader')
+                loader: ExtracTextPlugin.extract('style-loader','css-loader?minimize')
             },
             {
                 test: /\.(png|jpg)$/,

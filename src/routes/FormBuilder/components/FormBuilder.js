@@ -127,6 +127,7 @@ class FormBuilder extends Component{
                 pageLayout:[
                         {
                             pageId:'Demo1',//==》pages-->id
+                            pageUrl:'',
                             layout:[{"i":"a","x":18,"y":0,"w":2,"h":1,"isDraggable":true,"isResizable":true}],//layouts
                             //页面内部的控件集合
                             controls:[
@@ -152,7 +153,7 @@ class FormBuilder extends Component{
                     ],
                 //新增加页面的临时变量
 
-                addedPage:{Name:'',Url:''},
+                addedPage:{},
                 //当前选中页面Id的临时变量
                 currentPage:'',
                 currentControlConfig:{}
@@ -333,16 +334,17 @@ class FormBuilder extends Component{
 
 
     //页面树形结构添加页面条目
-    addPage(name)
+    addPage(page)
     {
         let pages = this.state.pages;
-        pages[0].childNodes.push({iconName: "document", label: name,id:name});
+        pages[0].childNodes.push({iconName: "document", label: page.name,id:page.name});
         
 
 
         //pageLayout中新增layout默认记录  ==>需要修改为工厂方法
         let pageLayout={
-            pageId:name,
+            pageId:page.name,
+            pageUrl:page.url,
             layout:[{"i":"a","x":18,"y":0,"w":2,"h":1,"isDraggable":true,"isResizable":true}],
             controls:[{
                                 layoutId:"a",
@@ -350,7 +352,7 @@ class FormBuilder extends Component{
                                     fieldId:'', //关联到Fields中的Field
                                     type:'MaterialSelect',
                                     property:{
-                                            controlKey:'DemoInput',value:name
+                                            controlKey:'DemoInput',value:page.name
                                         }
                                 }
                     }]
@@ -359,8 +361,9 @@ class FormBuilder extends Component{
         
         //this.state.layouts.lg=[]; //或者初始化直接设置为空
     }
-    handleAddDialogClose(){
-        this.addPage(this.state.addedPage.Name);
+    handleAddDialogClose(page){
+       
+        this.addPage(page);
         this.state.dialogOpen=false;
         this.setState(this.state);
     }
@@ -403,12 +406,13 @@ class FormBuilder extends Component{
     /* 新增页面dialog 回调方法*/
     handlePageNameChange(value)
     {
-        this.setState({addedPage:{Name:value}});
+
+
     }
 
     handlePageUrlChange(value)
     {
-        this.setState({addedPage:{Url:value}});
+
     }
     /* ----------------------*/
 
